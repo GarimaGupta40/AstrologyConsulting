@@ -101,11 +101,10 @@ const SIGNS = [
 
 function Nav() {
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const links = [
-    { label: "Services", href: "#services" },
-    { label: "How it works", href: "#how" },
     { label: "About", href: "#about" },
-    { label: "Philosophy", href: "#philosophy" },
     { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
   ];
@@ -121,35 +120,122 @@ function Nav() {
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a4a4a]">{BRAND.tagline}</div>
           </div>
         </a>
-        <nav className="hidden md:flex items-center gap-9">
+
+        <nav className="hidden md:flex items-center gap-8">
+          <div
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+          >
+            <button
+              type="button"
+              onClick={() => setServicesOpen((s) => !s)}
+              className="flex items-center gap-1 text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2"
+              aria-expanded={servicesOpen}
+              aria-haspopup="true"
+              data-testid="nav-services-toggle"
+            >
+              Services
+              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${servicesOpen ? "rotate-90" : "rotate-90"}`} style={{ transform: servicesOpen ? "rotate(-90deg)" : "rotate(90deg)" }} />
+            </button>
+            {servicesOpen && (
+              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[320px]">
+                <div className="bg-white border border-[#f0e6d2] rounded-2xl shadow-lg overflow-hidden">
+                  {SERVICES.map((s) => (
+                    <a
+                      key={s.title}
+                      href="#services"
+                      onClick={() => setServicesOpen(false)}
+                      className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
+                      data-testid={`nav-service-${s.title.toLowerCase().replace(/\s+/g, "-")}`}
+                    >
+                      <div className="w-9 h-9 rounded-full mv-gradient flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Sparkles className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-[#1a1a1a] flex items-center gap-2">
+                          {s.title}
+                          {s.flagship && (
+                            <span className="text-[9px] uppercase tracking-wider font-bold text-[#ef4d2b] bg-[#fff5eb] px-1.5 py-0.5 rounded">
+                              Flagship
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-xs text-[#4a4a4a] mt-0.5">{s.tag}</div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           {links.map((l) => (
             <a key={l.href} href={l.href} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]">
               {l.label}
             </a>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-3">
-          <a href={`tel:${BRAND.phone}`} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]" data-testid="nav-phone-link">
+
+        <div className="hidden md:flex items-center gap-4">
+          <a
+            href={`tel:${BRAND.phone}`}
+            className="flex items-center gap-1.5 text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]"
+            data-testid="nav-phone-link"
+          >
+            <Phone className="w-4 h-4 text-[#ef4d2b]" />
             {BRAND.phone}
           </a>
           <Button asChild className="mv-gradient text-white hover:opacity-90 rounded-full px-5">
             <a href="#contact">Book a Consultation</a>
           </Button>
         </div>
+
         <button onClick={() => setOpen(!open)} className="md:hidden p-2 rounded-lg border border-[#f0e6d2]" aria-label="Menu">
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
+
       {open && (
         <div className="md:hidden border-t border-[#f0e6d2] bg-white">
-          <div className="section-container py-4 flex flex-col gap-3">
+          <div className="section-container py-4 flex flex-col gap-1">
+            <button
+              type="button"
+              onClick={() => setMobileServicesOpen((s) => !s)}
+              className="flex items-center justify-between text-sm font-medium text-[#1a1a1a] py-2"
+              aria-expanded={mobileServicesOpen}
+            >
+              Services
+              <ChevronRight className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-90" : ""}`} />
+            </button>
+            {mobileServicesOpen && (
+              <div className="pl-3 border-l-2 border-[#f6d46b] flex flex-col gap-2 mb-2">
+                {SERVICES.map((s) => (
+                  <a
+                    key={s.title}
+                    href="#services"
+                    onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
+                    className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b] py-1"
+                  >
+                    {s.title}
+                  </a>
+                ))}
+              </div>
+            )}
             {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-[#1a1a1a]">
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-[#1a1a1a] py-2">
                 {l.label}
               </a>
             ))}
+            <a
+              href={`tel:${BRAND.phone}`}
+              className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] py-2"
+            >
+              <Phone className="w-4 h-4 text-[#ef4d2b]" />
+              {BRAND.phone}
+            </a>
             <Button asChild className="mv-gradient text-white rounded-full mt-2">
-              <a href="#contact">Book a Consultation</a>
+              <a href="#contact" onClick={() => setOpen(false)}>Book a Consultation</a>
             </Button>
           </div>
         </div>
