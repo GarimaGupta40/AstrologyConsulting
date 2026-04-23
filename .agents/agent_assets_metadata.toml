@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "4qwySzepKLaTNBqfHdL3Q"
+uri = "file://artifacts/maha-vastu/public/hero-visual.png"
+type = "image"
+title = "Hero energy visual"
+
+[[generated]]
+id = "ILcz7rttHiCELT5fMidFA"
+uri = "file://artifacts/maha-vastu/public/founder-portrait.png"
+type = "image"
+title = "Founder portrait"
