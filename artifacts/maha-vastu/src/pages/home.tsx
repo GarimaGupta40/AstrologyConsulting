@@ -102,7 +102,17 @@ const SIGNS = [
 function Nav() {
   const [open, setOpen] = useState(false);
   const links = [
-    { label: "Services", href: "#services" },
+    { 
+      label: "Services", 
+      href: "#services",
+      dropdown: [
+        { label: "Vastu Consultation", href: "#services" },
+        { label: "Astro Vastu", href: "#services" },
+        { label: "Astrology Guidance", href: "#services" },
+        { label: "Land & Plot Analysis", href: "#services" },
+        { label: "Aura & Chakra Healing", href: "#services" },
+      ]
+    },
     { label: "How it works", href: "#how" },
     { label: "About", href: "#about" },
     { label: "Philosophy", href: "#philosophy" },
@@ -123,9 +133,25 @@ function Nav() {
         </a>
         <nav className="hidden md:flex items-center gap-9">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]">
-              {l.label}
-            </a>
+            l.dropdown ? (
+              <div key={l.label} className="relative group">
+                <a href={l.href} className="flex items-center gap-1 text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2">
+                  {l.label}
+                  <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:rotate-90" />
+                </a>
+                <div className="absolute top-full left-0 mt-0 w-56 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 bg-white border border-[#f0e6d2] shadow-lg rounded-xl overflow-hidden py-2">
+                  {l.dropdown.map((sub) => (
+                    <a key={sub.label} href={sub.href} className="block px-4 py-2.5 text-sm text-[#4a4a4a] hover:text-[#ef4d2b] hover:bg-[#fff5eb]">
+                      {sub.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a key={l.label} href={l.href} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2">
+                {l.label}
+              </a>
+            )
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-3">
@@ -141,12 +167,23 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-[#f0e6d2] bg-white">
+        <div className="md:hidden border-t border-[#f0e6d2] bg-white max-h-[80vh] overflow-y-auto">
           <div className="section-container py-4 flex flex-col gap-3">
             {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-[#1a1a1a]">
-                {l.label}
-              </a>
+              <div key={l.label} className="flex flex-col gap-2">
+                <a href={l.href} onClick={() => !l.dropdown && setOpen(false)} className="text-sm font-medium text-[#1a1a1a] py-1">
+                  {l.label}
+                </a>
+                {l.dropdown && (
+                  <div className="pl-4 flex flex-col gap-3 border-l-2 border-[#f0e6d2] ml-1 mt-1 mb-2">
+                    {l.dropdown.map((sub) => (
+                      <a key={sub.label} href={sub.href} onClick={() => setOpen(false)} className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b]">
+                        {sub.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <Button asChild className="mv-gradient text-white rounded-full mt-2">
               <a href="#contact">Book a Consultation</a>
