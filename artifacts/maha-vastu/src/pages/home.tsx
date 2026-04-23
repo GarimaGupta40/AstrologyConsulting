@@ -158,11 +158,80 @@ function Nav() {
   );
 }
 
+function HeroBackdrop() {
+  const dots = [
+    { cx: 12, cy: 18, r: 1.2, d: 0 },
+    { cx: 82, cy: 24, r: 1.6, d: 1.2 },
+    { cx: 26, cy: 70, r: 1.0, d: 0.6 },
+    { cx: 70, cy: 78, r: 1.4, d: 2.1 },
+    { cx: 50, cy: 8,  r: 1.1, d: 1.7 },
+    { cx: 92, cy: 60, r: 1.3, d: 0.3 },
+    { cx: 6,  cy: 50, r: 1.2, d: 2.4 },
+    { cx: 40, cy: 92, r: 1.0, d: 1.0 },
+  ];
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(140vw,1200px)] aspect-square opacity-[0.18]">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <defs>
+            <linearGradient id="mvRing" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f6d46b" />
+              <stop offset="100%" stopColor="#ef4d2b" />
+            </linearGradient>
+          </defs>
+          <g style={{ transformOrigin: "100px 100px" }} className="animate-mv-orbit">
+            <circle cx="100" cy="100" r="92" fill="none" stroke="url(#mvRing)" strokeWidth="0.4" strokeDasharray="2 4" />
+            <circle cx="100" cy="100" r="74" fill="none" stroke="url(#mvRing)" strokeWidth="0.4" strokeDasharray="1 3" />
+          </g>
+          <g style={{ transformOrigin: "100px 100px" }} className="animate-mv-orbit-reverse">
+            <circle cx="100" cy="100" r="58" fill="none" stroke="url(#mvRing)" strokeWidth="0.5" />
+            {Array.from({ length: 12 }).map((_, i) => {
+              const a = (i * 30 * Math.PI) / 180;
+              const x = 100 + Math.cos(a) * 58;
+              const y = 100 + Math.sin(a) * 58;
+              return <circle key={i} cx={x} cy={y} r="1.2" fill="#ef4d2b" />;
+            })}
+          </g>
+          <g style={{ transformOrigin: "100px 100px" }} className="animate-mv-orbit">
+            <circle cx="100" cy="100" r="40" fill="none" stroke="url(#mvRing)" strokeWidth="0.6" />
+            <circle cx="100" cy="100" r="22" fill="none" stroke="url(#mvRing)" strokeWidth="0.6" />
+          </g>
+          <g style={{ transformOrigin: "100px 100px" }} className="animate-mv-orbit-reverse">
+            {Array.from({ length: 8 }).map((_, i) => {
+              const a = (i * 45 * Math.PI) / 180;
+              const x1 = 100 + Math.cos(a) * 22;
+              const y1 = 100 + Math.sin(a) * 22;
+              const x2 = 100 + Math.cos(a) * 40;
+              const y2 = 100 + Math.sin(a) * 40;
+              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="url(#mvRing)" strokeWidth="0.3" />;
+            })}
+          </g>
+          <circle cx="100" cy="100" r="3" fill="url(#mvRing)" className="animate-mv-pulse-dot" />
+        </svg>
+      </div>
+      <div className="absolute inset-0">
+        {dots.map((d, i) => (
+          <span
+            key={i}
+            className="absolute block rounded-full bg-[#ef4d2b] animate-mv-twinkle"
+            style={{
+              left: `${d.cx}%`,
+              top: `${d.cy}%`,
+              width: `${d.r * 3}px`,
+              height: `${d.r * 3}px`,
+              animationDelay: `${d.d}s`,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-warm-glow">
-      <div className="absolute inset-0 opacity-[0.09] bg-center bg-cover animate-spin-slow"
-        style={{ backgroundImage: "url(https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?auto=format&fit=crop&w=1600&q=80)" }} />
+      <HeroBackdrop />
       <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-[#f6d46b]/25 blur-3xl" />
       <div className="absolute -bottom-24 -left-24 w-[420px] h-[420px] rounded-full bg-[#ef4d2b]/15 blur-3xl" />
       <div className="section-container relative py-24 md:py-36 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
