@@ -353,3 +353,58 @@
     inset: -1px;
   }
 }
+/* === Maha Vastu site-specific === */
+body {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.01em;
+}
+.bg-sacred-geometry {
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(246, 212, 107, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(239, 77, 43, 0.06) 0%, transparent 50%);
+}
+.bg-warm-glow {
+  background:
+    radial-gradient(ellipse at top, rgba(246, 212, 107, 0.15), transparent 60%),
+    radial-gradient(ellipse at bottom right, rgba(239, 77, 43, 0.08), transparent 50%);
+}
+.mv-gradient {
+  background: linear-gradient(135deg, #f6d46b 0%, #ef4d2b 100%);
+}
+.mv-gradient-text {
+  background: linear-gradient(135deg, #f6d46b 0%, #ef4d2b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+@keyframes mv-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+  50% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+}
+.animate-mv-pulse { animation: mv-pulse 2.2s infinite; }
+@keyframes mv-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: mv-spin-slow 60s linear infinite; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #faf9f6; }
+::-webkit-scrollbar-thumb { background: #f0e6d2; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #f6d46b; }
+.section-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 768px) {
+  .section-container { padding-left: 3rem; padding-right: 3rem; }
+}

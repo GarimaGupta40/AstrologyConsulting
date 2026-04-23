@@ -1,796 +1,693 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { 
-  Home as HomeIcon, 
-  Sparkles, 
-  Star, 
-  Compass, 
-  Flame, 
-  ArrowRight,
-  Phone,
-  MessageCircle,
-  Mail,
-  MapPin,
-  Star as StarIconFilled
+import {
+  Phone, Mail, MapPin, MessageCircle, Star, Check, ArrowRight,
+  Compass, Sparkles, Mountain, HeartHandshake, Sun, ShieldCheck,
+  Clock, FileText, ChevronRight, Menu, X, Quote, Award, Users, Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
-// CountUp Component
-const CountUp = ({ end, suffix = "", duration = 2 }: { end: number; suffix?: string; duration?: number }) => {
-  const [count, setCount] = useState(0);
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
-
-  useEffect(() => {
-    if (inView) {
-      let start = 0;
-      const stepTime = Math.abs(Math.floor((duration * 1000) / end));
-      const timer = setInterval(() => {
-        start += Math.ceil(end / 20) || 1;
-        if (start > end) {
-          setCount(end);
-          clearInterval(timer);
-        } else {
-          setCount(start);
-        }
-      }, stepTime);
-      return () => clearInterval(timer);
-    }
-  }, [inView, end, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
+const BRAND = {
+  name: "Maha Vastu",
+  tagline: "Astrology & Vastu Science",
+  phone: "+91 98765 43210",
+  whatsapp: "919876543210",
+  email: "consult@mahavastu.example",
+  address: "Pimpri-Chinchwad, Pune, Maharashtra",
+  mapsQuery: "Pimpri-Chinchwad, Pune",
 };
 
-export default function Home() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const HERO_IMG =
+  "https://images.unsplash.com/photo-1747409020046-c7137dc46ef6?crop=entropy&cs=srgb&fm=jpg&w=1200&q=85";
+const AURA_IMG =
+  "https://images.unsplash.com/photo-1759223293148-52173d3a70b3?crop=entropy&cs=srgb&fm=jpg&w=1200&q=85";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+const SERVICES = [
+  {
+    title: "Vastu Consulting",
+    tag: "Align your space with natural energy",
+    desc: "On-site and remote Vastu analysis for homes, offices, and factories. Correct structural energy flow using proven Vastu principles without demolition.",
+    audience: "Homeowners, business owners, factory managers",
+    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Astrology Consulting",
+    tag: "Clarity for career, relationships & timing",
+    desc: "Detailed Kundali reading, dasha analysis, and decision-timing support with a written prediction summary.",
+    audience: "Professionals, couples, students, NRIs",
+    image: "https://images.unsplash.com/photo-1515266591878-f93e32bc5937?auto=format&fit=crop&w=1400&q=80",
+  },
+  {
+    title: "Astro Vastu",
+    tag: "Where your stars meet your space",
+    desc: "A premium, integrated analysis combining your birth chart with property energy mapping. Every remedy is tuned to your personal planetary alignment.",
+    audience: "Serious seekers, builders, entrepreneurs",
+    image: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1200&q=80",
+    flagship: true,
+  },
+  {
+    title: "Land Analysis",
+    tag: "Buy right, build right",
+    desc: "Plot-level energy, soil, slope, and directional analysis before purchase. Go / no-go recommendation with risk flags identified early.",
+    audience: "Buyers, builders, developers, industrialists",
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Aura Healing",
+    tag: "Clear the energy you carry",
+    desc: "Structured healing sessions to balance chakras, reset your aura, and build a daily practice that sustains the healing outside the session.",
+    audience: "Individuals seeking inner balance",
+    image: "https://images.unsplash.com/photo-1591291621164-2c6367723315?auto=format&fit=crop&w=1200&q=80",
+  },
+];
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+const STEPS = [
+  { n: "1", title: "Reserve a slot", desc: "Reserve a slot via form or WhatsApp. Receive an intake link within 24 hours." },
+  { n: "2", title: "Share your details", desc: "Send your Kundali details, floor plan, or plot layout through our secure form." },
+  { n: "3", title: "Layered analysis", desc: "Our team performs a layered analysis across astrology, directions, and energy flow." },
+  { n: "4", title: "Written report", desc: "Receive a written report with clear, prioritised remedies and a follow-up plan." },
+];
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setFormSubmitted(true);
-    }, 800);
-  };
+const STATS = [
+  { icon: Award, value: "18+", label: "Years of consulting" },
+  { icon: Users, value: "12,000+", label: "Real transformations" },
+  { icon: MapPin, value: "25+", label: "Cities served" },
+  { icon: Building2, value: "5", label: "Service pillars" },
+];
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-  };
+const PHILOSOPHY = [
+  { icon: FileText, title: "Analytical, report-driven method", desc: "Every engagement ends with a written diagnostic report — not a sales call. Clear, measurable remedies you can act on." },
+  { icon: ShieldCheck, title: "No fear, no theatrics", desc: "Every remedy is explained, measurable, and reversible. No fear-based rituals, ever." },
+  { icon: Sparkles, title: "Non-destructive corrections", desc: "We prefer corrections that don't require demolition, relocation, or heavy cost." },
+  { icon: HeartHandshake, title: "We stay through execution", desc: "We stay with you through execution. A report without follow-up is just paper. 6-month follow-up window included." },
+];
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  };
+const TESTIMONIALS = [
+  { quote: "The Astro Vastu reading gave me clarity on career direction that six months of confusion couldn't. Worth every minute.", name: "Aanya K.", role: "Product Lead, Bengaluru" },
+  { quote: "My daughter's academic stress and our financial tension both eased within months. The remedies were simple and didn't demand heavy changes.", name: "Rohit & Priya M.", role: "Family clients, Pune" },
+  { quote: "We used Maha Vastu for three residential projects. The analysis was technical, respectful of our design, and the bookings noticeably improved after launch.", name: "Devraj S.", role: "Builder, Mumbai" },
+  { quote: "What impressed me was the scientific tone. No fear. No rituals for the sake of it. Just clean advice and measurable change.", name: "Meera R.", role: "Architect, Hyderabad" },
+];
 
+const SIGNS = [
+  "Persistent health issues in family",
+  "Financial stagnation at home or office",
+  "Workplace conflict and unproductive teams",
+  "Orientation and entry confusion",
+  "Generic Vastu not producing results",
+  "Industrial / commercial siting decisions",
+  "Life events timed poorly with decisions",
+  "Relationship or marriage compatibility doubts",
+];
+
+function Nav() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { label: "Services", href: "#services" },
+    { label: "How it works", href: "#how" },
+    { label: "About", href: "#about" },
+    { label: "Philosophy", href: "#philosophy" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "Contact", href: "#contact" },
+  ];
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-white">
-      {/* Sticky Nav */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-background/90 backdrop-blur-md border-b border-border shadow-sm' : 'bg-transparent'}`}>
-        <div className="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl tracking-tight">
-              Maha <span className="font-serif italic text-primary font-medium">Vastu</span>
-            </span>
+    <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-[#f0e6d2]">
+      <div className="section-container flex items-center justify-between h-20">
+        <a href="#top" className="flex items-center gap-2.5 group">
+          <div className="w-10 h-10 rounded-full mv-gradient flex items-center justify-center shadow-sm">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <button onClick={() => scrollTo('hero')} className="hover:text-primary transition-colors">Home</button>
-            <button onClick={() => scrollTo('services')} className="hover:text-primary transition-colors">Services</button>
-            <button onClick={() => scrollTo('about')} className="hover:text-primary transition-colors">About</button>
-            <button onClick={() => scrollTo('contact')} className="hover:text-primary transition-colors">Contact</button>
-          </nav>
-          <div>
-            <Button onClick={() => scrollTo('contact')} size="sm" className="rounded-full px-6">
-              Book Consultation
+          <div className="leading-tight">
+            <div className="font-heading text-xl font-semibold tracking-tight text-[#1a1a1a]">{BRAND.name}</div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a4a4a]">{BRAND.tagline}</div>
+          </div>
+        </a>
+        <nav className="hidden md:flex items-center gap-9">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+        <div className="hidden md:flex items-center gap-3">
+          <a href={`tel:${BRAND.phone}`} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]" data-testid="nav-phone-link">
+            {BRAND.phone}
+          </a>
+          <Button asChild className="mv-gradient text-white hover:opacity-90 rounded-full px-5">
+            <a href="#contact">Book a Consultation</a>
+          </Button>
+        </div>
+        <button onClick={() => setOpen(!open)} className="md:hidden p-2 rounded-lg border border-[#f0e6d2]" aria-label="Menu">
+          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+      {open && (
+        <div className="md:hidden border-t border-[#f0e6d2] bg-white">
+          <div className="section-container py-4 flex flex-col gap-3">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-[#1a1a1a]">
+                {l.label}
+              </a>
+            ))}
+            <Button asChild className="mv-gradient text-white rounded-full mt-2">
+              <a href="#contact">Book a Consultation</a>
             </Button>
           </div>
         </div>
-      </header>
+      )}
+    </header>
+  );
+}
 
-      {/* Hero Section */}
-      <section id="hero" className="pt-32 pb-20 md:pt-40 md:pb-32 px-4 md:px-6">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="flex flex-col items-start text-left"
-            >
-              <motion.div variants={fadeUp}>
-                <Badge variant="outline" className="mb-6 rounded-full px-4 py-1.5 bg-secondary/50 border-border text-foreground font-medium">
-                  Scientific Spiritual Consulting
-                </Badge>
-              </motion.div>
-              <motion.h2 variants={fadeUp} className="text-sm md:text-base font-medium tracking-widest uppercase text-muted-foreground mb-4">
-                Stars · Space · Self
-              </motion.h2>
-              <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.1] text-foreground mb-6">
-                Astro · Vastu · Energy
-              </motion.h1>
-              <motion.p variants={fadeUp} className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-8">
-                Personalised, non-destructive solutions for your home, career, relationships, and energy alignment — backed by 18+ years of consulting and 12,000+ real transformations.
-              </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 mb-6 w-full sm:w-auto">
-                <Button 
-                  size="lg" 
-                  className="rounded-full px-8 text-base h-12"
-                  data-testid="hero-book-consultation-btn"
-                  onClick={() => scrollTo('contact')}
-                >
-                  Book Consultation
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8 text-base h-12 border-border hover:bg-secondary/30">
-                  Get Free Assessment
-                </Button>
-              </motion.div>
-              <motion.p variants={fadeUp} className="text-sm text-muted-foreground mb-8">
-                Based in Pimpri-Chinchwad · Serving 25+ cities
-              </motion.p>
-              <motion.div variants={fadeUp} className="flex items-center gap-2 text-sm font-medium bg-card px-4 py-2 rounded-full border border-border shadow-sm">
-                <span className="text-yellow-500">★</span> 4.9/5 from 2,400+ reviews
-              </motion.div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative aspect-square w-full max-w-md mx-auto md:max-w-none md:ml-auto overflow-hidden rounded-[2rem] shadow-2xl"
-            >
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent z-10 rounded-[2rem]" />
-              <img 
-                src="/hero-visual.png" 
-                alt="Aura Energy" 
-                className="w-full h-full object-cover object-center"
-              />
-            </motion.div>
+function Hero() {
+  return (
+    <section id="top" className="relative overflow-hidden bg-warm-glow">
+      <div className="absolute inset-0 opacity-[0.09] bg-center bg-cover animate-spin-slow"
+        style={{ backgroundImage: "url(https://images.unsplash.com/photo-1528716321680-815a8cdb8cbe?auto=format&fit=crop&w=1600&q=80)" }} />
+      <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-[#f6d46b]/25 blur-3xl" />
+      <div className="absolute -bottom-24 -left-24 w-[420px] h-[420px] rounded-full bg-[#ef4d2b]/15 blur-3xl" />
+      <div className="section-container relative py-24 md:py-36 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-7">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#f6d46b] bg-white/80 text-xs font-semibold uppercase tracking-[0.2em] text-[#ef4d2b]">
+            <Sun className="w-3.5 h-3.5" /> Scientific Spiritual Consulting
           </div>
-        </div>
-      </section>
-
-      {/* Trust Stats Strip */}
-      <section className="py-12 bg-foreground text-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 divide-x-0 md:divide-x divide-background/20 text-center">
-            <div className="flex flex-col">
-              <span className="text-4xl md:text-5xl font-serif mb-2 text-primary-foreground"><CountUp end={18} suffix="+" /></span>
-              <span className="text-sm font-medium text-background/70 uppercase tracking-wider">Years of experience</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-4xl md:text-5xl font-serif mb-2 text-primary-foreground"><CountUp end={12000} suffix="+" /></span>
-              <span className="text-sm font-medium text-background/70 uppercase tracking-wider">Clients served</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-4xl md:text-5xl font-serif mb-2 text-primary-foreground"><CountUp end={25} suffix="+" /></span>
-              <span className="text-sm font-medium text-background/70 uppercase tracking-wider">Cities covered</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-4xl md:text-5xl font-serif mb-2 text-primary-foreground">4.9/5</span>
-              <span className="text-sm font-medium text-background/70 uppercase tracking-wider">Client rating</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-24 px-4 md:px-6 bg-secondary/20">
-        <div className="container mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">Our Services</p>
-            <h2 className="text-4xl md:text-5xl font-serif mb-6 text-foreground">One integrated practice.</h2>
-            <p className="text-lg text-muted-foreground">
-              Choose a single service, or combine them through our flagship Astro Vastu program for a fully personalised plan.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16">
-            {/* Vastu Consultation */}
-            <Card className="border-border shadow-sm hover:shadow-md transition-shadow group overflow-hidden bg-card relative">
-              <CardContent className="p-8 h-full flex flex-col">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                  <HomeIcon size={24} />
-                </div>
-                <h3 className="text-2xl font-serif mb-3">Vastu Consultation</h3>
-                <p className="font-medium text-foreground mb-3 text-sm">On-site and remote Vastu analysis for homes, offices, and factories.</p>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                  Correct structural energy flow using proven Vastu principles without demolition. Receive a detailed report with practical, minimal-change remedies.
-                </p>
-                <div className="mt-auto">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Problems Solved:</p>
-                  <ul className="space-y-2 mb-6">
-                    {["Financial stagnation at home or office", "Persistent health issues in family", "Workplace conflict and unproductive teams"].map((item, i) => (
-                      <li key={i} className="text-sm flex items-start gap-2">
-                        <span className="text-primary mt-0.5">•</span> <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="text-primary font-medium text-sm flex items-center gap-1 group/btn hover:underline underline-offset-4">
-                    Learn more <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Astro Vastu (Flagship) */}
-            <Card className="border-primary/30 shadow-md hover:shadow-lg transition-shadow group overflow-hidden bg-card relative md:col-span-2 lg:col-span-1 lg:row-span-2 ring-1 ring-primary/10">
-              <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider py-1.5 px-4 rounded-bl-lg">
-                Premium Flagship
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-              <CardContent className="p-8 h-full flex flex-col relative z-10">
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground mb-6 group-hover:scale-110 transition-transform shadow-sm">
-                  <Sparkles size={24} />
-                </div>
-                <h3 className="text-2xl font-serif mb-3">Astro Vastu</h3>
-                <p className="font-medium text-foreground mb-3 text-sm">Our flagship service — Kundali-based Vastu planning personalised to your birth chart.</p>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                  A premium, integrated analysis combining your birth chart with property energy mapping. Every remedy is tuned to your personal planetary alignment for maximum impact.
-                </p>
-                <div className="mt-auto">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Problems Solved:</p>
-                  <ul className="space-y-2 mb-6">
-                    {["Generic Vastu not producing results", "Life events timed poorly with decisions", "Uncertainty about property purchase or construction"].map((item, i) => (
-                      <li key={i} className="text-sm flex items-start gap-2">
-                        <span className="text-primary mt-0.5">•</span> <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="text-primary font-medium text-sm flex items-center gap-1 group/btn hover:underline underline-offset-4">
-                    Learn more <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Astrology Guidance */}
-            <Card className="border-border shadow-sm hover:shadow-md transition-shadow group overflow-hidden bg-card relative">
-              <CardContent className="p-8 h-full flex flex-col">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                  <Star size={24} />
-                </div>
-                <h3 className="text-2xl font-serif mb-3">Astrology Guidance</h3>
-                <p className="font-medium text-foreground mb-3 text-sm">Detailed Kundali reading, dasha analysis, and decision-timing support.</p>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                  Structured, one-on-one astrology sessions focused on real decisions — career, relationships, health, and timing of major life events.
-                </p>
-                <div className="mt-auto">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Problems Solved:</p>
-                  <ul className="space-y-2 mb-6">
-                    {["Career confusion or stagnation", "Relationship or marriage compatibility doubts", "Recurring life setbacks"].map((item, i) => (
-                      <li key={i} className="text-sm flex items-start gap-2">
-                        <span className="text-primary mt-0.5">•</span> <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="text-primary font-medium text-sm flex items-center gap-1 group/btn hover:underline underline-offset-4">
-                    Learn more <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Land & Plot Analysis */}
-            <Card className="border-border shadow-sm hover:shadow-md transition-shadow group overflow-hidden bg-card relative">
-              <CardContent className="p-8 h-full flex flex-col">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                  <Compass size={24} />
-                </div>
-                <h3 className="text-2xl font-serif mb-3">Land & Plot Analysis</h3>
-                <p className="font-medium text-foreground mb-3 text-sm">Plot-level energy, soil, slope, and directional analysis before purchase.</p>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                  Technical evaluation of a plot against Vastu, directional flow, surroundings, and usage intent — before you commit capital.
-                </p>
-                <div className="mt-auto">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Problems Solved:</p>
-                  <ul className="space-y-2 mb-6">
-                    {["Unsure if a plot is auspicious", "Orientation and entry confusion", "Industrial / commercial siting decisions"].map((item, i) => (
-                      <li key={i} className="text-sm flex items-start gap-2">
-                        <span className="text-primary mt-0.5">•</span> <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="text-primary font-medium text-sm flex items-center gap-1 group/btn hover:underline underline-offset-4">
-                    Learn more <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Aura & Chakra Healing */}
-            <Card className="border-border shadow-sm hover:shadow-md transition-shadow group overflow-hidden bg-card relative">
-              <CardContent className="p-8 h-full flex flex-col">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
-                  <Flame size={24} />
-                </div>
-                <h3 className="text-2xl font-serif mb-3">Aura & Chakra Healing</h3>
-                <p className="font-medium text-foreground mb-3 text-sm">Structured healing sessions to balance chakras and reset your aura.</p>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                  Guided, practical sessions to diagnose energy blockages, stabilise chakras, and build a daily practice that sustains the healing outside the session.
-                </p>
-                <div className="mt-auto">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Problems Solved:</p>
-                  <ul className="space-y-2 mb-6">
-                    {["Chronic low energy or anxiety", "Feeling stuck despite effort", "Emotional patterns that repeat"].map((item, i) => (
-                      <li key={i} className="text-sm flex items-start gap-2">
-                        <span className="text-primary mt-0.5">•</span> <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button className="text-primary font-medium text-sm flex items-center gap-1 group/btn hover:underline underline-offset-4">
-                    Learn more <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Alignment Pillars */}
-          <div className="flex flex-wrap justify-center gap-4">
-            {["Cosmic Alignment", "Astrological Precision", "Sacred Geometry", "Inner Balance"].map((pillar, i) => (
-              <div key={i} className="px-5 py-2 rounded-full bg-background border border-border text-sm font-medium text-muted-foreground shadow-sm">
-                {pillar}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How it Works */}
-      <section className="py-24 px-4 md:px-6">
-        <div className="container mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">How it works</p>
-            <h2 className="text-4xl md:text-5xl font-serif mb-6 text-foreground">From first conversation to real transformation.</h2>
-            <p className="text-lg text-muted-foreground">
-              No guesswork. No anxiety. Just a clear path from first conversation to real transformation.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8 relative">
-            <div className="hidden md:block absolute top-6 left-12 right-12 h-px bg-border -z-10" />
-            
-            {[
-              { title: "Book Consultation", desc: "Reserve a slot via form or WhatsApp. Receive an intake link within 24 hours." },
-              { title: "Share Details", desc: "Send your Kundali details, floor plan, or plot layout through our secure form." },
-              { title: "Deep Analysis", desc: "Our team performs a layered analysis across astrology, directions, and energy flow." },
-              { title: "Remedies & Transformation", desc: "Receive a written report with clear, prioritised remedies and a follow-up plan." }
-            ].map((step, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="relative text-center md:text-left pt-6 md:pt-0"
-              >
-                <div className="w-12 h-12 rounded-full bg-background border-2 border-primary text-primary font-serif text-xl flex items-center justify-center mx-auto md:mx-0 mb-6 relative z-10 shadow-sm">
-                  {i + 1}
-                </div>
-                <h3 className="text-xl font-serif mb-3 font-semibold">{step.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About / Founder */}
-      <section id="about" className="py-24 px-4 md:px-6 bg-foreground text-background">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-2 lg:order-1 relative aspect-[3/4] w-full max-w-md mx-auto lg:max-w-none overflow-hidden rounded-[2rem]"
-            >
-              <img 
-                src="/founder-portrait.png" 
-                alt="Founder of Maha Vastu" 
-                className="w-full h-full object-cover object-center grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-              />
-              <div className="absolute bottom-6 left-6 right-6 bg-background/10 backdrop-blur-md border border-background/20 p-4 rounded-xl text-center">
-                <p className="text-sm font-medium tracking-widest uppercase text-background">Pimpri-Chinchwad, Pune</p>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 lg:order-2"
-            >
-              <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">About Maha Vastu</p>
-              <h2 className="text-4xl md:text-5xl font-serif mb-6 text-background">A consultant first. A healer second.</h2>
-              <p className="text-xl font-medium text-background/80 mb-8 font-serif italic">
-                A modern consulting practice rooted in tradition.
-              </p>
-              
-              <div className="space-y-6 text-background/70 leading-relaxed mb-10">
-                <p>
-                  Maha Vastu was founded on a simple belief: spirituality is only useful when it produces real change. For nearly two decades, our practice has combined rigorous Vastu analysis, classical astrology, and modern energy science to deliver structured, measurable outcomes for individuals and businesses.
-                </p>
-                <p>
-                  Maha Vastu was founded in Pimpri-Chinchwad with a clear mission: make Vastu, Astrology, and Energy work accessible, analytical, and results-driven — free of superstition, fear, or theatrics.
-                </p>
-              </div>
-
-              <ul className="space-y-4 mb-10">
-                {[
-                  "18+ years in Vastu, Astrology & Energy Science",
-                  "Analytical, report-driven consulting method",
-                  "No fear-based remedies — practical, minimum-intervention guidance"
-                ].map((point, i) => (
-                  <li key={i} className="flex items-center gap-3 text-background">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                    <span className="font-medium">{point}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <button className="text-primary font-medium flex items-center gap-2 group hover:text-primary/80 transition-colors">
-                Read our story <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Philosophy */}
-      <section className="py-24 px-4 md:px-6 bg-secondary/10">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">Our Philosophy</p>
-            <h2 className="text-4xl md:text-5xl font-serif text-foreground">Four principles we refuse to compromise on.</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              { title: "Evidence over superstition", desc: "Every remedy is explained, measurable, and reversible. No fear-based rituals, ever." },
-              { title: "Minimum intervention", desc: "We prefer corrections that don't require demolition, relocation, or heavy cost." },
-              { title: "Personalised, not templated", desc: "Your chart, your space, your circumstance — every plan is built from scratch for you." },
-              { title: "Follow-through matters", desc: "We stay with you through execution. A report without follow-up is just paper." }
-            ].map((principle, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="bg-card p-8 rounded-2xl border border-border shadow-sm"
-              >
-                <div className="text-primary font-serif text-3xl mb-4 opacity-50">0{i+1}</div>
-                <h3 className="text-xl font-semibold font-serif mb-3">{principle.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{principle.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 px-4 md:px-6 bg-background">
-        <div className="container mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">Client results</p>
-            <h2 className="text-4xl md:text-5xl font-serif mb-6 text-foreground">Real transformations.</h2>
-            <p className="text-lg text-muted-foreground">
-              Our practice sits where the cosmos, the home, and the self meet. Here's the feeling it leaves behind.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { name: "Rohan Deshmukh", role: "Real Estate Developer, Pune", text: "We used Maha Vastu for three residential projects. The analysis was technical, respectful of our design, and the bookings noticeably improved after launch." },
-              { name: "Anjali Kulkarni", role: "Homemaker, Pimpri", text: "My daughter's academic stress and our financial tension both eased within months. The remedies were simple and didn't demand heavy changes." },
-              { name: "Dr. Sameer Kale", role: "Clinic Owner, Chinchwad", text: "What impressed me was the scientific tone. No fear. No rituals for the sake of it. Just clean advice and measurable change." },
-              { name: "Neha Rao", role: "Software Professional", text: "The Astro Vastu reading gave me clarity on career direction that six months of confusion couldn't. Worth every minute." }
-            ].map((testimonial, i) => (
-              <Card key={i} className="bg-secondary/10 border-none shadow-none h-full">
-                <CardContent className="p-8 flex flex-col h-full">
-                  <div className="flex gap-1 mb-6 text-primary">
-                    {[...Array(5)].map((_, j) => <StarIconFilled key={j} size={16} className="fill-current" />)}
-                  </div>
-                  <blockquote className="text-foreground font-serif italic text-lg leading-relaxed mb-8 flex-grow">
-                    "{testimonial.text}"
-                  </blockquote>
-                  <div>
-                    <p className="font-bold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Band */}
-      <section className="py-20 px-4 md:px-6 bg-primary text-primary-foreground text-center">
-        <div className="container mx-auto max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-serif mb-6">Ready for a calmer, clearer, more aligned life?</h2>
-          <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 font-medium">
-            Book a free 15-minute clarity call. No obligation. No sales.
+          <h1 className="font-heading mt-6 text-4xl sm:text-5xl lg:text-6xl leading-[1.05] font-light tracking-tight text-[#1a1a1a]">
+            Where your stars meet <span className="mv-gradient-text font-medium">your space.</span>
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-[#4a4a4a] max-w-2xl leading-relaxed">
+            Personalised, non-destructive solutions for your home, career, relationships, and energy alignment — backed by 18+ years of consulting and 12,000+ real transformations.
           </p>
-          <Button 
-            size="lg" 
-            variant="secondary" 
-            className="rounded-full px-10 text-lg h-14 text-primary bg-background hover:bg-background/90"
-            onClick={() => scrollTo('contact')}
-          >
-            Book a free call
+          <div className="mt-9 flex flex-col sm:flex-row gap-3">
+            <Button asChild className="mv-gradient text-white hover:opacity-90 rounded-full px-7 h-12 text-base shadow-md">
+              <a href="#contact">Book a Free Clarity Call <ArrowRight className="w-4 h-4 ml-2" /></a>
+            </Button>
+            <Button asChild variant="outline" className="rounded-full px-7 h-12 text-base border-[#ef4d2b] text-[#ef4d2b] hover:bg-[#fff5eb]">
+              <a href="#services">Explore Services</a>
+            </Button>
+          </div>
+          <div className="mt-10 flex flex-wrap items-center gap-5 text-sm text-[#4a4a4a]">
+            <div className="flex items-center gap-1">
+              {[0,1,2,3,4].map(i => <Star key={i} className="w-4 h-4 fill-[#f6d46b] text-[#f6d46b]" />)}
+              <span className="ml-1 font-medium text-[#1a1a1a]">4.9 / 5</span>
+              <span>· Trusted by builders, professionals & families</span>
+            </div>
+          </div>
+        </div>
+        <div className="lg:col-span-5 relative">
+          <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-[#f6d46b]/35 to-[#ef4d2b]/25 blur-3xl" />
+          <div className="relative rounded-[2rem] overflow-hidden border border-[#f0e6d2] shadow-xl aspect-[4/5]">
+            <img src={HERO_IMG} alt="Sacred geometry" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5 text-white">
+              <div className="text-[10px] uppercase tracking-[0.25em] text-[#f6d46b] font-semibold">Our Practice</div>
+              <div className="font-heading text-xl font-medium mt-1">Crafted for clarity, balance, and results.</div>
+            </div>
+          </div>
+          <div className="absolute -bottom-6 -left-6 hidden md:flex items-center gap-3 bg-white border border-[#f0e6d2] rounded-2xl px-5 py-4 shadow-md">
+            <div className="w-10 h-10 rounded-full mv-gradient flex items-center justify-center">
+              <Compass className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Based in</div>
+              <div className="font-heading text-sm font-medium text-[#1a1a1a]">Pimpri-Chinchwad · 25+ cities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Stats() {
+  return (
+    <section className="bg-[#faf9f6] border-y border-[#f0e6d2]">
+      <div className="section-container py-16 md:py-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {STATS.map((s, i) => (
+            <div key={i} className="bg-white border border-[#f0e6d2] rounded-2xl p-6 md:p-8 text-center hover:shadow-md transition-shadow">
+              <div className="w-11 h-11 mx-auto rounded-full bg-[#fff5eb] flex items-center justify-center mb-3">
+                <s.icon className="w-5 h-5 text-[#ef4d2b]" />
+              </div>
+              <div className="font-heading text-3xl md:text-4xl font-medium tracking-tight text-[#1a1a1a]">{s.value}</div>
+              <div className="text-xs md:text-sm text-[#4a4a4a] mt-1">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  return (
+    <section id="services" className="section-container py-20 md:py-28">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <div>
+          <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">What we do</div>
+          <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">Five disciplines, one integrated practice.</h2>
+        </div>
+        <p className="text-[#4a4a4a] max-w-md leading-relaxed">
+          Every engagement begins with listening. Explore our core services below, or book a free 15-minute clarity call to find the right fit.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
+        {SERVICES.map((s, i) => {
+          const span = s.flagship ? "md:col-span-3 lg:col-span-2 md:row-span-2" : "md:col-span-3 lg:col-span-2";
+          return (
+            <a key={i} href="#contact"
+              className={`group relative rounded-2xl overflow-hidden border border-[#f0e6d2] aspect-[4/5] hover:-translate-y-1 transition-transform duration-500 ${span}`}>
+              <img src={s.image} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+              {s.flagship && (
+                <span className="absolute top-5 right-5 text-[10px] uppercase tracking-[0.22em] font-bold text-white bg-[#ef4d2b] px-3 py-1 rounded-full">
+                  Premium Flagship
+                </span>
+              )}
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                <div className="text-[10px] uppercase tracking-[0.25em] text-[#f6d46b] font-semibold">{s.tag}</div>
+                <div className="font-heading text-xl md:text-2xl font-medium mt-1">{s.title}</div>
+                <p className="mt-3 text-sm text-white/85 leading-relaxed line-clamp-3">{s.desc}</p>
+                <div className="mt-4 flex items-center gap-1.5 text-sm font-medium text-white group-hover:text-[#f6d46b] transition-colors">
+                  Learn more <ChevronRight className="w-4 h-4" />
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  return (
+    <section id="how" className="bg-[#faf9f6] border-y border-[#f0e6d2]">
+      <div className="section-container py-20 md:py-28">
+        <div className="max-w-2xl">
+          <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">How it works</div>
+          <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">A clear path from first conversation to real transformation.</h2>
+          <p className="mt-5 text-lg text-[#4a4a4a] leading-relaxed">No guesswork. No anxiety. Just a clear path from first conversation to real transformation.</p>
+        </div>
+        <div className="relative mt-14">
+          <div className="hidden lg:block absolute top-8 left-10 right-10 h-px bg-gradient-to-r from-transparent via-[#f6d46b] to-transparent" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            {STEPS.map((s, i) => (
+              <div key={i} className="relative bg-white border border-[#f0e6d2] rounded-2xl p-7 hover:-translate-y-1 hover:shadow-md transition-all">
+                <div className="w-16 h-16 rounded-full mv-gradient flex items-center justify-center text-white font-heading text-xl font-semibold shadow-md">{s.n}</div>
+                <h3 className="mt-6 font-heading text-xl font-medium text-[#1a1a1a]">{s.title}</h3>
+                <p className="mt-2 text-[#4a4a4a] leading-relaxed text-[15px]">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" className="section-container py-20 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">About Maha Vastu</div>
+        <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">A modern consulting practice rooted in tradition.</h2>
+        <p className="mt-5 text-[#4a4a4a] text-lg leading-relaxed">
+          Maha Vastu was founded in Pimpri-Chinchwad with a clear mission: make Vastu, Astrology, and Energy work accessible, analytical, and results-driven — free of superstition, fear, or theatrics.
+        </p>
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[
+            "Written diagnostic report",
+            "Practical remedial actions",
+            "Muhurat-aligned execution",
+            "6-month follow-up window",
+            "Non-destructive corrections",
+            "Lifetime advisory reference",
+          ].map((b, i) => (
+            <div key={i} className="flex items-start gap-2.5 text-[#1a1a1a]">
+              <Check className="w-5 h-5 text-[#ef4d2b] mt-0.5 shrink-0" />
+              <span className="text-[15px]">{b}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Button asChild className="mv-gradient text-white rounded-full px-6">
+            <a href="#contact">Book a Consultation</a>
+          </Button>
+          <Button asChild variant="outline" className="rounded-full px-6 border-[#ef4d2b] text-[#ef4d2b] hover:bg-[#fff5eb]">
+            <a href={`https://wa.me/${BRAND.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp Us</a>
           </Button>
         </div>
-      </section>
-
-      {/* Contact / Booking */}
-      <section id="contact" className="py-24 px-4 md:px-6 bg-secondary/10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-background rounded-l-[4rem] hidden lg:block -z-10" />
-        <div className="container mx-auto">
-          <div className="text-center md:text-left mb-16">
-            <p className="text-sm font-medium tracking-widest uppercase text-primary mb-4">Reach Us</p>
-            <h2 className="text-4xl md:text-5xl font-serif mb-6 text-foreground">Talk to us</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              Write to us, call, or use WhatsApp — whichever feels natural. We respond within 24 hours on working days.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
-            {/* Contact Info */}
-            <div className="space-y-6">
-              <Card className="border-border bg-card shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-6 flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-                    <Phone size={24} />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-1">+91 98765 43210</h4>
-                    <p className="text-sm text-muted-foreground">Mon–Sat · 10am to 7pm IST</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <a href="https://wa.me/919876543210?text=Hello%20Maha%20Vastu%2C%20I'd%20like%20to%20book%20a%20consultation." target="_blank" rel="noreferrer" className="block">
-                <Card className="border-border bg-card shadow-sm hover:shadow-md transition-shadow group">
-                  <CardContent className="p-6 flex items-start gap-5">
-                    <div className="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] flex-shrink-0 group-hover:scale-110 transition-transform">
-                      <MessageCircle size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-semibold mb-1 group-hover:text-[#25D366] transition-colors">Chat with an advisor</h4>
-                      <p className="text-sm text-muted-foreground">Typical reply within 2 hours</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </a>
-
-              <Card className="border-border bg-card shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-6 flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-                    <Mail size={24} />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-1">consult@mahavastu.example</h4>
-                    <p className="text-sm text-muted-foreground">For reports, follow-ups, receipts</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border bg-card shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-6 flex items-start gap-5">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-                    <MapPin size={24} />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-1">Pimpri-Chinchwad, Pune</h4>
-                    <p className="text-sm text-muted-foreground">By appointment only</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Booking Form */}
-            <div className="bg-card lg:bg-transparent rounded-2xl lg:rounded-none p-6 md:p-8 lg:p-0 border border-border shadow-sm lg:border-none lg:shadow-none">
-              {!formSubmitted ? (
-                <form onSubmit={handleBookingSubmit} className="space-y-6">
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-serif font-semibold mb-3">Book Consultation</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Share a few details about your situation. A Maha Vastu advisor will review your case and respond within 24 hours with a suggested next step — free.
-                    </p>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Full Name *</Label>
-                      <Input id="name" required className="bg-background border-border focus-visible:ring-primary/50" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Mobile Number *</Label>
-                      <Input id="phone" type="tel" placeholder="+91 98765 43210" required className="bg-background border-border focus-visible:ring-primary/50" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email (optional)</Label>
-                    <Input id="email" type="email" className="bg-background border-border focus-visible:ring-primary/50" />
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label>Service Interested In *</Label>
-                      <Select required>
-                        <SelectTrigger className="bg-background border-border focus:ring-primary/50">
-                          <SelectValue placeholder="Select a service" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="vastu">Vastu Consultation</SelectItem>
-                          <SelectItem value="astro-vastu">Astro Vastu</SelectItem>
-                          <SelectItem value="astrology">Astrology Guidance</SelectItem>
-                          <SelectItem value="land">Land & Plot Analysis</SelectItem>
-                          <SelectItem value="aura">Aura & Chakra Healing</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Property Type</Label>
-                      <Select>
-                        <SelectTrigger className="bg-background border-border focus:ring-primary/50">
-                          <SelectValue placeholder="Select property type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="home">Home</SelectItem>
-                          <SelectItem value="office">Office</SelectItem>
-                          <SelectItem value="factory">Factory</SelectItem>
-                          <SelectItem value="plot">Plot</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="dob">Date of Birth</Label>
-                    <Input id="dob" type="date" className="bg-background border-border focus-visible:ring-primary/50" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="situation">Describe your situation</Label>
-                    <Textarea 
-                      id="situation" 
-                      rows={4} 
-                      className="bg-background border-border focus-visible:ring-primary/50 resize-none" 
-                      placeholder="Tell us what you're looking to resolve or improve..."
-                    />
-                  </div>
-
-                  <Button type="submit" className="w-full h-12 text-base rounded-lg mt-4" disabled={isSubmitting}>
-                    {isSubmitting ? "Submitting..." : "Book Consultation"}
-                  </Button>
-                  
-                  <p className="text-xs text-center text-muted-foreground mt-4">
-                    By submitting, you agree to be contacted by Maha Vastu via phone, email, or WhatsApp.
-                  </p>
-                </form>
-              ) : (
-                <div className="h-full flex flex-col items-center justify-center text-center py-12 px-6 border border-border rounded-2xl bg-card shadow-sm">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinelinejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </div>
-                  <h3 className="text-3xl font-serif font-semibold mb-4">Request received</h3>
-                  <p className="text-muted-foreground mb-8 max-w-md">
-                    Our team will reach out within 24 hours. Check your email and WhatsApp for the intake form.
-                  </p>
-                  <Button variant="outline" onClick={() => setFormSubmitted(false)} className="rounded-full">
-                    Submit another
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
+      </div>
+      <div className="relative">
+        <div className="absolute -inset-4 bg-gradient-to-br from-[#f6d46b]/30 to-[#ef4d2b]/20 rounded-3xl blur-2xl" />
+        <div className="relative rounded-3xl overflow-hidden border border-[#f0e6d2] shadow-sm">
+          <img src={AURA_IMG} alt="Maha Vastu aura" className="w-full h-[420px] object-cover" />
         </div>
-      </section>
+        <div className="absolute -bottom-6 -right-6 bg-white border border-[#f0e6d2] rounded-2xl px-5 py-4 shadow-md hidden md:block">
+          <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Founded</div>
+          <div className="font-heading text-lg font-medium text-[#1a1a1a]">Pimpri-Chinchwad · 2007</div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-      {/* Footer */}
-      <footer className="bg-foreground text-background py-16 px-4 md:px-6">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 border-b border-background/10 pb-16">
-            <div className="lg:col-span-2">
-              <div className="text-2xl tracking-tight mb-2">
-                Maha <span className="font-serif italic text-primary font-medium">Vastu</span>
+function Philosophy() {
+  return (
+    <section id="philosophy" className="bg-[#faf9f6] border-y border-[#f0e6d2]">
+      <div className="section-container py-20 md:py-28">
+        <div className="max-w-2xl">
+          <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">Our philosophy</div>
+          <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">Four principles we refuse to compromise on.</h2>
+          <p className="mt-5 text-lg text-[#4a4a4a] leading-relaxed">Our practice sits where the cosmos, the home, and the self meet. Here's the feeling it leaves behind.</p>
+        </div>
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-5">
+          {PHILOSOPHY.map((p, i) => (
+            <div key={i} className="bg-white border border-[#f0e6d2] rounded-2xl p-8">
+              <div className="w-11 h-11 rounded-full bg-[#fff5eb] flex items-center justify-center">
+                <p.icon className="w-5 h-5 text-[#ef4d2b]" />
               </div>
-              <p className="text-sm text-background/60 font-medium tracking-widest uppercase mb-6">
-                Astro · Vastu · Energy
-              </p>
-              <p className="text-background/70 max-w-sm leading-relaxed">
-                Scientific spiritual consulting. Practical remedies for your home, career, and energy — grounded in Vastu and Astrology.
-              </p>
+              <h3 className="mt-4 font-heading text-xl font-medium text-[#1a1a1a]">{p.title}</h3>
+              <p className="mt-2 text-[#4a4a4a] leading-relaxed">{p.desc}</p>
             </div>
-            
-            <div>
-              <h4 className="font-serif text-lg mb-6 font-semibold">Services</h4>
-              <ul className="space-y-4 text-background/70">
-                <li><button onClick={() => scrollTo('vastu')} className="hover:text-primary transition-colors text-sm">Vastu Consultation</button></li>
-                <li><button onClick={() => scrollTo('astro-vastu')} className="hover:text-primary transition-colors text-sm">Astro Vastu</button></li>
-                <li><button onClick={() => scrollTo('astrology')} className="hover:text-primary transition-colors text-sm">Astrology Guidance</button></li>
-                <li><button onClick={() => scrollTo('land')} className="hover:text-primary transition-colors text-sm">Land & Plot Analysis</button></li>
-                <li><button onClick={() => scrollTo('aura')} className="hover:text-primary transition-colors text-sm">Aura Healing</button></li>
-              </ul>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Signs() {
+  return (
+    <section className="section-container py-20 md:py-28">
+      <div className="relative rounded-3xl overflow-hidden border border-[#f6d46b] bg-gradient-to-br from-[#fff5eb] via-white to-[#fffaf0] p-6 md:p-12 lg:p-16">
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[#f6d46b]/25 blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-[#ef4d2b]/15 blur-3xl" />
+        <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-10">
+          <div className="lg:col-span-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#f6d46b] bg-white text-[10px] font-semibold uppercase tracking-[0.22em] text-[#ef4d2b]">
+              When to consult
             </div>
-            
-            <div>
-              <h4 className="font-serif text-lg mb-6 font-semibold">Company</h4>
-              <ul className="space-y-4 text-background/70">
-                <li><button onClick={() => scrollTo('about')} className="hover:text-primary transition-colors text-sm">About Us</button></li>
-                <li><button onClick={() => scrollTo('contact')} className="hover:text-primary transition-colors text-sm">Contact</button></li>
-                <li className="pt-4 mt-4 border-t border-background/10">
-                  <p className="text-sm font-medium mb-1">Pimpri-Chinchwad, Pune</p>
-                  <p className="text-sm mb-1">+91 98765 43210</p>
-                  <p className="text-sm">consult@mahavastu.example</p>
-                </li>
-              </ul>
+            <h2 className="font-heading mt-5 text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-[#1a1a1a]">Signs it's time to call us.</h2>
+            <p className="mt-4 text-[#4a4a4a] leading-relaxed">If any of these feel familiar, a 15-minute clarity call usually points you in the right direction.</p>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {SIGNS.map((s, i) => (
+                <div key={i} className="flex items-start gap-2 text-[15px] text-[#1a1a1a]">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#ef4d2b] shrink-0" />
+                  <span>{s}</span>
+                </div>
+              ))}
             </div>
           </div>
-          
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/50">
-            <p>© 2026 Maha Vastu. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-background transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-background transition-colors">Terms of Service</a>
+          <div className="lg:col-span-2">
+            <div className="rounded-2xl border border-[#f6d46b] bg-white p-10 text-center">
+              <Sparkles className="w-12 h-12 mx-auto text-[#ef4d2b]" />
+              <h3 className="font-heading text-2xl font-medium mt-4 text-[#1a1a1a]">Free 15-min clarity call</h3>
+              <p className="mt-2 text-[#4a4a4a] text-sm leading-relaxed">No obligation. No sales. Just a written assessment of what to do next.</p>
+              <Button asChild className="mt-6 mv-gradient text-white rounded-full">
+                <a href="#contact">Reserve a slot</a>
+              </Button>
             </div>
           </div>
         </div>
-      </footer>
+      </div>
+    </section>
+  );
+}
 
-      {/* FAB WhatsApp */}
-      <a 
-        href="https://wa.me/919876543210?text=Hello%20Maha%20Vastu%2C%20I'd%20like%20to%20book%20a%20consultation."
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform md:bottom-10 md:right-10"
-        aria-label="Chat on WhatsApp"
-      >
-        <MessageCircle size={28} />
-      </a>
+function Testimonials() {
+  return (
+    <section id="testimonials" className="bg-[#faf9f6] border-y border-[#f0e6d2]">
+      <div className="section-container py-20 md:py-28">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
+          <div>
+            <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">Voices of transformation</div>
+            <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">Real outcomes, in their own words.</h2>
+          </div>
+          <div className="flex items-center gap-1">
+            {[0,1,2,3,4].map(i => <Star key={i} className="w-5 h-5 fill-[#f6d46b] text-[#f6d46b]" />)}
+            <span className="ml-2 text-sm font-medium text-[#1a1a1a]">4.9 / 5 average</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {TESTIMONIALS.map((t, i) => (
+            <div key={i} className="bg-white border border-[#f0e6d2] rounded-2xl p-8 relative hover:shadow-md transition-shadow">
+              <Quote className="absolute top-6 right-6 w-8 h-8 text-[#f6d46b]" />
+              <div className="flex items-center gap-1 mb-4">
+                {[0,1,2,3,4].map(i => <Star key={i} className="w-4 h-4 fill-[#f6d46b] text-[#f6d46b]" />)}
+              </div>
+              <p className="text-[#1a1a1a] text-lg leading-relaxed">"{t.quote}"</p>
+              <div className="mt-6 pt-5 border-t border-[#f0e6d2] flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full mv-gradient flex items-center justify-center text-white font-heading font-semibold">
+                  {t.name.split(" ").map(s => s[0]).join("").slice(0,2)}
+                </div>
+                <div>
+                  <div className="font-heading text-base font-medium text-[#1a1a1a]">{t.name}</div>
+                  <div className="text-xs text-[#4a4a4a]">{t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CTABand() {
+  return (
+    <section className="section-container py-20 md:py-28">
+      <div className="relative rounded-3xl overflow-hidden mv-gradient text-white p-10 md:p-16">
+        <div className="absolute inset-0 opacity-20 bg-sacred-geometry" />
+        <div className="relative max-w-2xl">
+          <div className="text-xs uppercase tracking-[0.25em] text-white/80 font-semibold">Ready to begin?</div>
+          <h2 className="font-heading mt-4 text-3xl md:text-4xl font-light">Ready for a calmer, clearer, more aligned life?</h2>
+          <p className="mt-4 text-white/90 leading-relaxed">Book a free 15-minute clarity call. No obligation. No sales.</p>
+          <Button asChild className="mt-6 bg-white text-[#ef4d2b] hover:bg-white/90 rounded-full px-7 h-12">
+            <a href="#contact">Book Your Free Call <ArrowRight className="w-4 h-4 ml-2" /></a>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const [form, setForm] = useState({ name: "", phone: "", email: "", service: "", message: "" });
+  const [done, setDone] = useState(false);
+  const [err, setErr] = useState("");
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.phone || !form.email || !form.service) {
+      setErr("Please fill your name, mobile, email, and select a service.");
+      return;
+    }
+    setErr("");
+    setDone(true);
+  };
+
+  return (
+    <section id="contact" className="section-container py-16 md:py-24">
+      <div>
+        <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">Begin your consultation</div>
+        <h2 className="font-heading mt-3 text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-[#1a1a1a] max-w-4xl">Let's understand your situation first.</h2>
+        <p className="mt-5 text-lg text-[#4a4a4a] max-w-2xl">
+          Share a few details about your situation. A Maha Vastu advisor will review your case and respond within 24 hours with a suggested next step — free.
+        </p>
+      </div>
+
+      <div className="mt-12 grid grid-cols-1 lg:grid-cols-5 gap-10">
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex items-start gap-4 p-6 rounded-2xl bg-white border border-[#f0e6d2] hover:shadow-md transition-shadow" data-testid="contact-phone-card">
+            <div className="w-11 h-11 rounded-full bg-[#fff5eb] flex items-center justify-center">
+              <Phone className="w-5 h-5 text-[#ef4d2b]" />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Call</div>
+              <div className="font-heading text-lg font-medium text-[#1a1a1a]">{BRAND.phone}</div>
+              <div className="text-sm text-[#4a4a4a] mt-0.5">Mon–Sat · 10am to 7pm IST</div>
+            </div>
+          </div>
+          <a href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hello Maha Vastu, I'd like to book a consultation.")}`}
+             target="_blank" rel="noreferrer"
+             className="flex items-start gap-4 p-6 rounded-2xl bg-white border border-[#f0e6d2] hover:shadow-md transition-shadow" data-testid="contact-whatsapp-card">
+            <div className="w-11 h-11 rounded-full bg-[#25D366]/15 flex items-center justify-center">
+              <MessageCircle className="w-5 h-5 text-[#25D366]" />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.22em] text-[#25D366] font-semibold">WhatsApp</div>
+              <div className="font-heading text-lg font-medium text-[#1a1a1a]">Chat with us</div>
+              <div className="text-sm text-[#4a4a4a] mt-0.5">Fastest response, usually within an hour</div>
+            </div>
+          </a>
+          <div className="flex items-start gap-4 p-6 rounded-2xl bg-white border border-[#f0e6d2] hover:shadow-md transition-shadow" data-testid="contact-email-card">
+            <div className="w-11 h-11 rounded-full bg-[#fff5eb] flex items-center justify-center">
+              <Mail className="w-5 h-5 text-[#ef4d2b]" />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Email</div>
+              <div className="font-heading text-lg font-medium text-[#1a1a1a] break-all">{BRAND.email}</div>
+              <div className="text-sm text-[#4a4a4a] mt-0.5">For reports, follow-ups, receipts</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-4 p-6 rounded-2xl bg-white border border-[#f0e6d2]">
+            <div className="w-11 h-11 rounded-full bg-[#fff5eb] flex items-center justify-center">
+              <MapPin className="w-5 h-5 text-[#ef4d2b]" />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Studio</div>
+              <div className="font-heading text-lg font-medium text-[#1a1a1a]">{BRAND.address}</div>
+              <div className="text-sm text-[#4a4a4a] mt-0.5">Visits by appointment only</div>
+            </div>
+          </div>
+          <div className="rounded-3xl overflow-hidden border border-[#f0e6d2] h-[280px]">
+            <iframe
+              title="Maha Vastu Location"
+              src={`https://www.google.com/maps?q=${encodeURIComponent(BRAND.mapsQuery)}&output=embed`}
+              className="w-full h-full" loading="lazy" />
+          </div>
+        </div>
+
+        <div className="lg:col-span-3">
+          {done ? (
+            <div className="bg-white rounded-2xl border border-[#f6d46b] p-10 text-center">
+              <div className="w-14 h-14 mx-auto rounded-full mv-gradient flex items-center justify-center">
+                <Check className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="mt-5 font-heading text-2xl font-medium text-[#1a1a1a]">Request received.</h3>
+              <p className="mt-2 text-[#4a4a4a] leading-relaxed">Our team will reach out within 24 hours. Check your email and WhatsApp for the intake form.</p>
+            </div>
+          ) : (
+            <form onSubmit={submit} className="bg-white rounded-2xl border border-[#f0e6d2] p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-1">
+                <label className="text-xs uppercase tracking-[0.22em] text-[#4a4a4a] font-semibold">Your name</label>
+                <input value={form.name} onChange={e=>setForm({...form,name:e.target.value})}
+                  className="mt-2 w-full rounded-xl border border-[#f0e6d2] bg-[#faf9f6] px-4 h-11 outline-none focus:border-[#ef4d2b]" placeholder="Full name" />
+              </div>
+              <div className="md:col-span-1">
+                <label className="text-xs uppercase tracking-[0.22em] text-[#4a4a4a] font-semibold">Mobile</label>
+                <input value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}
+                  className="mt-2 w-full rounded-xl border border-[#f0e6d2] bg-[#faf9f6] px-4 h-11 outline-none focus:border-[#ef4d2b]" placeholder="+91 ..." />
+              </div>
+              <div className="md:col-span-1">
+                <label className="text-xs uppercase tracking-[0.22em] text-[#4a4a4a] font-semibold">Email</label>
+                <input value={form.email} onChange={e=>setForm({...form,email:e.target.value})} data-testid="lead-email-input"
+                  className="mt-2 w-full rounded-xl border border-[#f0e6d2] bg-[#faf9f6] px-4 h-11 outline-none focus:border-[#ef4d2b]" placeholder="you@email.com" />
+              </div>
+              <div className="md:col-span-1">
+                <label className="text-xs uppercase tracking-[0.22em] text-[#4a4a4a] font-semibold">Service</label>
+                <select value={form.service} onChange={e=>setForm({...form,service:e.target.value})}
+                  className="mt-2 w-full rounded-xl border border-[#f0e6d2] bg-[#faf9f6] px-4 h-11 outline-none focus:border-[#ef4d2b]">
+                  <option value="">Choose a service</option>
+                  {SERVICES.map(s => <option key={s.title} value={s.title}>{s.title}</option>)}
+                </select>
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-xs uppercase tracking-[0.22em] text-[#4a4a4a] font-semibold">Tell us a little</label>
+                <textarea value={form.message} onChange={e=>setForm({...form,message:e.target.value})} rows={4}
+                  className="mt-2 w-full rounded-xl border border-[#f0e6d2] bg-[#faf9f6] px-4 py-3 outline-none focus:border-[#ef4d2b]"
+                  placeholder="Briefly tell us what you're facing or what you'd like to understand..." />
+              </div>
+              {err && <div className="md:col-span-2 text-sm text-[#ef4d2b]">{err}</div>}
+              <div className="md:col-span-2 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between pt-2">
+                <p className="text-xs text-[#4a4a4a] max-w-md leading-relaxed">
+                  By submitting, you agree to be contacted by Maha Vastu via phone, email, or WhatsApp.
+                </p>
+                <Button type="submit" className="mv-gradient text-white hover:opacity-90 rounded-full px-7 h-12">
+                  Send Request <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-[#faf9f6] border-t border-[#f0e6d2] mt-20">
+      <div className="section-container py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="md:col-span-1">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-full mv-gradient flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <div className="font-heading text-xl font-semibold">{BRAND.name}</div>
+          </div>
+          <p className="mt-4 text-sm text-[#4a4a4a] leading-relaxed">
+            Scientific spiritual consulting. Practical remedies for your home, career, and energy — grounded in Vastu and Astrology.
+          </p>
+        </div>
+        <div>
+          <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold mb-4">Services</div>
+          <ul className="space-y-2 text-sm text-[#1a1a1a]">
+            {SERVICES.map(s => <li key={s.title}><a href="#services" className="hover:text-[#ef4d2b]">{s.title}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold mb-4">Practice</div>
+          <ul className="space-y-2 text-sm text-[#1a1a1a]">
+            <li><a href="#about" className="hover:text-[#ef4d2b]">About</a></li>
+            <li><a href="#how" className="hover:text-[#ef4d2b]">How it works</a></li>
+            <li><a href="#philosophy" className="hover:text-[#ef4d2b]">Philosophy</a></li>
+            <li><a href="#testimonials" className="hover:text-[#ef4d2b]">Testimonials</a></li>
+          </ul>
+        </div>
+        <div>
+          <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold mb-4">Reach us</div>
+          <ul className="space-y-3 text-sm text-[#1a1a1a]">
+            <li className="flex items-start gap-2"><Phone className="w-4 h-4 text-[#ef4d2b] mt-0.5" /> {BRAND.phone}</li>
+            <li className="flex items-start gap-2"><Mail className="w-4 h-4 text-[#ef4d2b] mt-0.5" /> <span className="break-all">{BRAND.email}</span></li>
+            <li className="flex items-start gap-2"><MapPin className="w-4 h-4 text-[#ef4d2b] mt-0.5" /> {BRAND.address}</li>
+            <li className="flex items-start gap-2"><Clock className="w-4 h-4 text-[#ef4d2b] mt-0.5" /> Mon–Sat · 10am to 7pm IST</li>
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-[#f0e6d2]">
+        <div className="section-container py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#4a4a4a]">
+          <div>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</div>
+          <div>Crafted in Pimpri-Chinchwad · Serving 25+ cities</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function FloatingWhatsApp() {
+  return (
+    <a
+      href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hello Maha Vastu, I'd like to book a consultation.")}`}
+      target="_blank" rel="noreferrer"
+      data-testid="floating-whatsapp-btn"
+      className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg animate-mv-pulse hover:scale-105 transition-transform"
+      aria-label="Chat on WhatsApp"
+    >
+      <MessageCircle className="w-6 h-6" />
+    </a>
+  );
+}
+
+export default function Home() {
+  useEffect(() => { document.title = "Maha Vastu — Astrology & Vastu Science"; }, []);
+  return (
+    <div className="min-h-screen bg-white text-[#1a1a1a]">
+      <Nav />
+      <main className="pt-20">
+        <Hero />
+        <Stats />
+        <Services />
+        <HowItWorks />
+        <About />
+        <Philosophy />
+        <Signs />
+        <Testimonials />
+        <CTABand />
+        <Contact />
+      </main>
+      <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 }
