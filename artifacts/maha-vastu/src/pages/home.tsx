@@ -6,6 +6,7 @@ import {
   Clock, FileText, ChevronRight, Menu, X, Quote, Award, Users, Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import homeHeroBg from "@/assets/home-hero-bg.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -363,6 +364,24 @@ function HeroBackdrop() {
   ];
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      {/* Spiritual Indian background — sacred courtyard with cosmic galaxy descending into a rangoli mandala */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-75"
+        style={{ backgroundImage: `url(${homeHeroBg})` }}
+      />
+      {/* Cream wash — strong on left for headline readability, soft on right to reveal the scene */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(255,245,235,0.94) 0%, rgba(255,245,235,0.82) 35%, rgba(255,245,235,0.42) 65%, rgba(255,245,235,0.18) 100%)",
+        }}
+      />
+      {/* Bottom fade into next section */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-32"
+        style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 100%)" }}
+      />
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(130vw,1100px)] aspect-square opacity-[0.20]">
         <svg viewBox="-110 -110 220 220" className="w-full h-full">
           <defs>
@@ -460,8 +479,8 @@ function Hero() {
       <HeroBackdrop />
       <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-[#f6d46b]/25 blur-3xl" />
       <div className="absolute -bottom-24 -left-24 w-[420px] h-[420px] rounded-full bg-[#ef4d2b]/15 blur-3xl" />
-      <div className="section-container relative py-24 md:py-36 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7">
+      <div className="section-container relative py-24 md:py-36">
+        <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#f6d46b] bg-white/80 text-xs font-semibold uppercase tracking-[0.2em] text-[#ef4d2b]">
             <Sun className="w-3.5 h-3.5" /> Scientific Spiritual Consulting
           </div>
@@ -484,26 +503,6 @@ function Hero() {
               {[0,1,2,3,4].map(i => <Star key={i} className="w-4 h-4 fill-[#f6d46b] text-[#f6d46b]" />)}
               <span className="ml-1 font-medium text-[#1a1a1a]">4.9 / 5</span>
               <span>· Trusted by builders, professionals & families</span>
-            </div>
-          </div>
-        </div>
-        <div className="lg:col-span-5 relative">
-          <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-[#f6d46b]/35 to-[#ef4d2b]/25 blur-3xl" />
-          <div className="relative rounded-[2rem] overflow-hidden border border-[#f0e6d2] shadow-xl aspect-[4/5]">
-            <img src={HERO_IMG} alt="Sacred geometry" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-            <div className="absolute bottom-5 left-5 right-5 text-white">
-              <div className="text-[10px] uppercase tracking-[0.25em] text-[#f6d46b] font-semibold">Our Practice</div>
-              <div className="font-heading text-xl font-medium mt-1">Crafted for clarity, balance, and results.</div>
-            </div>
-          </div>
-          <div className="absolute -bottom-6 -left-6 hidden md:flex items-center gap-3 bg-white border border-[#f0e6d2] rounded-2xl px-5 py-4 shadow-md">
-            <div className="w-10 h-10 rounded-full mv-gradient flex items-center justify-center">
-              <Compass className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Based in</div>
-              <div className="font-heading text-sm font-medium text-[#1a1a1a]">Pimpri-Chinchwad · 25+ cities</div>
             </div>
           </div>
         </div>
