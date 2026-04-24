@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import {
   Phone, Mail, MapPin, MessageCircle, Star, Check, ArrowRight,
   Compass, Sparkles, Mountain, HeartHandshake, Sun, ShieldCheck,
@@ -99,7 +100,7 @@ const SIGNS = [
   "Relationship or marriage compatibility doubts",
 ];
 
-function Nav() {
+export function Nav() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -139,32 +140,51 @@ function Nav() {
               <ChevronRight className={`w-3.5 h-3.5 transition-transform ${servicesOpen ? "rotate-90" : "rotate-90"}`} style={{ transform: servicesOpen ? "rotate(-90deg)" : "rotate(90deg)" }} />
             </button>
             {servicesOpen && (
-              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[320px]">
+              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px]">
                 <div className="bg-white border border-[#f0e6d2] rounded-2xl shadow-lg overflow-hidden">
-                  {SERVICES.map((s) => (
-                    <a
-                      key={s.title}
-                      href="#services"
-                      onClick={() => setServicesOpen(false)}
-                      className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
-                      data-testid={`nav-service-${s.title.toLowerCase().replace(/\s+/g, "-")}`}
-                    >
-                      <div className="w-9 h-9 rounded-full mv-gradient flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Sparkles className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-[#1a1a1a] flex items-center gap-2">
-                          {s.title}
-                          {s.flagship && (
-                            <span className="text-[9px] uppercase tracking-wider font-bold text-[#ef4d2b] bg-[#fff5eb] px-1.5 py-0.5 rounded">
-                              Flagship
-                            </span>
-                          )}
+                  {SERVICES.map((s) => {
+                    const slug = s.title.toLowerCase().includes("astro vastu")
+                      ? "astro-vastu"
+                      : s.title.toLowerCase().includes("astrology")
+                      ? "astrology"
+                      : s.title.toLowerCase().includes("land")
+                      ? "land"
+                      : s.title.toLowerCase().includes("aura")
+                      ? "aura"
+                      : "vastu";
+                    return (
+                      <Link
+                        key={s.title}
+                        href={`/services#${slug}`}
+                        onClick={() => setServicesOpen(false)}
+                        className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
+                        data-testid={`nav-service-${slug}`}
+                      >
+                        <div className="w-9 h-9 rounded-full mv-gradient flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Sparkles className="w-4 h-4 text-white" />
                         </div>
-                        <div className="text-xs text-[#4a4a4a] mt-0.5">{s.tag}</div>
-                      </div>
-                    </a>
-                  ))}
+                        <div>
+                          <div className="text-sm font-semibold text-[#1a1a1a] flex items-center gap-2">
+                            {s.title}
+                            {s.flagship && (
+                              <span className="text-[9px] uppercase tracking-wider font-bold text-[#ef4d2b] bg-[#fff5eb] px-1.5 py-0.5 rounded">
+                                Flagship
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs text-[#4a4a4a] mt-0.5">{s.tag}</div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                  <Link
+                    href="/services"
+                    onClick={() => setServicesOpen(false)}
+                    className="flex items-center justify-between px-4 py-3 bg-[#faf9f6] hover:bg-[#fff5eb] transition-colors text-sm font-medium text-[#ef4d2b]"
+                  >
+                    View all services
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
             )}
@@ -210,16 +230,34 @@ function Nav() {
             </button>
             {mobileServicesOpen && (
               <div className="pl-3 border-l-2 border-[#f6d46b] flex flex-col gap-2 mb-2">
-                {SERVICES.map((s) => (
-                  <a
-                    key={s.title}
-                    href="#services"
-                    onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
-                    className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b] py-1"
-                  >
-                    {s.title}
-                  </a>
-                ))}
+                {SERVICES.map((s) => {
+                  const slug = s.title.toLowerCase().includes("astro vastu")
+                    ? "astro-vastu"
+                    : s.title.toLowerCase().includes("astrology")
+                    ? "astrology"
+                    : s.title.toLowerCase().includes("land")
+                    ? "land"
+                    : s.title.toLowerCase().includes("aura")
+                    ? "aura"
+                    : "vastu";
+                  return (
+                    <Link
+                      key={s.title}
+                      href={`/services#${slug}`}
+                      onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
+                      className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b] py-1"
+                    >
+                      {s.title}
+                    </Link>
+                  );
+                })}
+                <Link
+                  href="/services"
+                  onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
+                  className="text-sm text-[#ef4d2b] font-medium py-1"
+                >
+                  View all services →
+                </Link>
               </div>
             )}
             {links.map((l) => (
@@ -795,7 +833,7 @@ function Contact() {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <footer className="bg-[#faf9f6] border-t border-[#f0e6d2] mt-20">
       <div className="section-container py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -845,7 +883,7 @@ function Footer() {
   );
 }
 
-function FloatingWhatsApp() {
+export function FloatingWhatsApp() {
   return (
     <a
       href={`https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent("Hello Maha Vastu, I'd like to book a consultation.")}`}
