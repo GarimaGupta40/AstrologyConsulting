@@ -10,6 +10,7 @@ import homeHeroBg from "@/assets/home-hero-bg.png";
 import vastuConsultingImg from "@assets/Gemini_Generated_Image_ycdda8ycdda8ycdd_1777016808807.png";
 import astrologyConsultingImg from "@assets/image_1777016938503.png";
 import astroVastuImg from "@assets/image_1777016970303.png";
+import landAnalysisImg from "@assets/image_1777017000394.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -54,7 +55,7 @@ const SERVICES = [
     tag: "Buy right, build right",
     desc: "Plot-level energy, soil, slope, and directional analysis before purchase. Go / no-go recommendation with risk flags identified early.",
     audience: "Buyers, builders, developers, industrialists",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
+    image: landAnalysisImg,
   },
   {
     title: "Aura Healing",
