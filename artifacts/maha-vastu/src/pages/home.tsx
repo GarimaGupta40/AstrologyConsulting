@@ -201,13 +201,23 @@ export function Nav() {
 
         <nav className="hidden md:flex items-center gap-8">
           <div
-            className="relative"
+            className="relative z-[60]"
             onMouseEnter={openDropdown}
             onMouseLeave={scheduleClose}
+            onFocus={openDropdown}
+            onBlur={scheduleClose}
           >
             <Link
               href="/services"
-              onClick={() => setServicesOpen(false)}
+              onClick={() => {
+                if (location === "/services") {
+                  setServicesOpen((v) => !v);
+                } else {
+                  setServicesOpen(false);
+                }
+              }}
+              onMouseEnter={openDropdown}
+              onFocus={openDropdown}
               className={desktopLinkClass(isActive("/services")) + " flex items-center gap-1"}
               aria-haspopup="true"
               aria-expanded={servicesOpen}
@@ -222,7 +232,7 @@ export function Nav() {
             </Link>
 
             <div
-              className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px] transition-all duration-150 ${
+              className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px] z-[60] transition-all duration-150 ${
                 servicesOpen
                   ? "opacity-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 -translate-y-1 pointer-events-none"
