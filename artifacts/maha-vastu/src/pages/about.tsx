@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import aboutHeroBg from "@/assets/about-hero-bg.png";
 import founderJourneyImg from "@assets/image_1777018008747.png";
 import lineageImg from "@assets/sunset-yoga-person-with-lotus-meditation-wellness-mindfulness_1777018125827.avif";
+import promiseImg from "@assets/imagesgg_1777018197224.jpg";
 
 const BRAND = {
   phone: "+91 98765 43210",
@@ -559,7 +560,7 @@ function Promise() {
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-br from-[#f6d46b]/40 to-[#ef4d2b]/25 rounded-3xl blur-2xl" />
               <div className="relative rounded-3xl overflow-hidden border border-[#f0e6d2] shadow-md">
-                <img src={LOTUS_IMG} alt="Lotus blossom" loading="lazy" className="w-full h-[360px] object-cover" />
+                <img src={promiseImg} alt="Our promise" loading="lazy" className="w-full h-[360px] object-cover" />
               </div>
             </div>
           </div>
