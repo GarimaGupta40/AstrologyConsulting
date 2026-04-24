@@ -13,8 +13,8 @@ import promiseImg from "@assets/imagesgg_1777018197224.jpg";
 import practiceImg from "@assets/image_1777018580143.png";
 
 const BRAND = {
-  phone: "+91 98765 43210",
-  whatsapp: "919876543210",
+  phone: "+91 99999 99999",
+  whatsapp: "919999999999",
 };
 
 const FOUNDER_IMG =

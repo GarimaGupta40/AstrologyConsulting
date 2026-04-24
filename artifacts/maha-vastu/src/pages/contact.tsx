@@ -9,9 +9,9 @@ import contactHeroBg from "@/assets/contact-hero-bg.png";
 
 const BRAND = {
   name: "Maha Vastu",
-  phone: "+91 98765 43210",
-  phoneTel: "+919876543210",
-  whatsapp: "919876543210",
+  phone: "+91 99999 99999",
+  phoneTel: "+919999999999",
+  whatsapp: "919999999999",
   email: "consult@mahavastu.example",
   address: "Pimpri-Chinchwad, Pune, Maharashtra 411018",
   mapsQuery: "Pimpri-Chinchwad, Pune",

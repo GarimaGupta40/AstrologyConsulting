@@ -14,8 +14,8 @@ import auraHealingImg from "@assets/image_1777017543571.png";
 
 const BRAND = {
   name: "Maha Vastu",
-  phone: "+91 98765 43210",
-  whatsapp: "919876543210",
+  phone: "+91 99999 99999",
+  whatsapp: "919999999999",
 };
 
 type Service = {

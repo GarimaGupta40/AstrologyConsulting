@@ -18,8 +18,8 @@ import aboutMahaVastuImg from "@assets/image_1777017066889.png";
 const BRAND = {
   name: "Maha Vastu",
   tagline: "Astrology & Vastu Science",
-  phone: "+91 98765 43210",
-  whatsapp: "919876543210",
+  phone: "+91 99999 99999",
+  whatsapp: "919999999999",
   email: "consult@mahavastu.example",
   address: "Pimpri-Chinchwad, Pune, Maharashtra",
   mapsQuery: "Pimpri-Chinchwad, Pune",
