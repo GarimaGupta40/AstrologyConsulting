@@ -617,12 +617,12 @@ function Services() {
             <a key={i} href="#contact"
               className="group relative rounded-2xl overflow-hidden border border-[#f0e6d2] aspect-[4/5] hover:-translate-y-1 transition-transform duration-500">
               <img src={s.image} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
               {s.flagship && (
                 <span className="absolute top-5 right-5 text-[10px] uppercase tracking-[0.22em] font-bold text-white bg-[#ef4d2b] px-3 py-1 rounded-full">
                   Premium Flagship
                 </span>
               )}
+              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#ef4d2b]/90 via-[#ef4d2b]/65 to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                 <div className="text-[10px] uppercase tracking-[0.25em] text-[#f6d46b] font-semibold">{s.tag}</div>
                 <div className="font-heading text-xl md:text-2xl font-medium mt-1">{s.title}</div>
