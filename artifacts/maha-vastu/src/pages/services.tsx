@@ -515,7 +515,27 @@ function MiniTestimonial() {
 
 export default function ServicesPage() {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
+    if (typeof window === "undefined") return;
+
+    const scrollToHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        window.scrollTo({ top: 0, behavior: "auto" });
+        return;
+      }
+      const el = document.getElementById(hash);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    };
+
+    const t = setTimeout(scrollToHash, 80);
+    window.addEventListener("hashchange", scrollToHash);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("hashchange", scrollToHash);
+    };
   }, []);
   return (
     <main className="min-h-screen bg-white">

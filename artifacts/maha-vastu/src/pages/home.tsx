@@ -128,17 +128,20 @@ export function Nav() {
             onMouseEnter={() => setServicesOpen(true)}
             onMouseLeave={() => setServicesOpen(false)}
           >
-            <button
-              type="button"
-              onClick={() => setServicesOpen((s) => !s)}
+            <Link
+              href="/services"
+              onClick={() => setServicesOpen(false)}
               className="flex items-center gap-1 text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2"
-              aria-expanded={servicesOpen}
               aria-haspopup="true"
-              data-testid="nav-services-toggle"
+              aria-expanded={servicesOpen}
+              data-testid="nav-services-link"
             >
               Services
-              <ChevronRight className={`w-3.5 h-3.5 transition-transform ${servicesOpen ? "rotate-90" : "rotate-90"}`} style={{ transform: servicesOpen ? "rotate(-90deg)" : "rotate(90deg)" }} />
-            </button>
+              <ChevronRight
+                className="w-3.5 h-3.5 transition-transform"
+                style={{ transform: servicesOpen ? "rotate(-90deg)" : "rotate(90deg)" }}
+              />
+            </Link>
             {servicesOpen && (
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px]">
                 <div className="bg-white border border-[#f0e6d2] rounded-2xl shadow-lg overflow-hidden">
