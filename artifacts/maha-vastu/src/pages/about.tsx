@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import aboutHeroBg from "@/assets/about-hero-bg.png";
 import founderJourneyImg from "@assets/image_1777018008747.png";
+import lineageImg from "@assets/sunset-yoga-person-with-lotus-meditation-wellness-mindfulness_1777018125827.avif";
 
 const BRAND = {
   phone: "+91 98765 43210",
@@ -333,7 +334,7 @@ function Lineage() {
           </p>
 
           <div className="relative mt-10 rounded-3xl overflow-hidden border border-[#f0e6d2] shadow-sm">
-            <img src={MANDALA_IMG} alt="Sacred mandala" loading="lazy" className="w-full h-[280px] object-cover" />
+            <img src={lineageImg} alt="Our lineage" loading="lazy" className="w-full h-[280px] object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/60 via-transparent to-transparent" />
             <div className="absolute bottom-5 left-5 right-5">
               <div className="text-[10px] uppercase tracking-[0.22em] text-white/80 font-semibold">Inspired by</div>
