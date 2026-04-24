@@ -10,6 +10,7 @@ import servicesHeroBg from "@/assets/services-hero-bg.png";
 import astroVastuImg from "@assets/image_1777017385292.png";
 import astrologyImg from "@assets/image_1777017424048.png";
 import landAnalysisImg from "@assets/image_1777017508626.png";
+import auraHealingImg from "@assets/image_1777017543571.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -163,8 +164,7 @@ const SERVICES: Service[] = [
       "Structured healing sessions to balance chakras, reset your aura, and build a daily practice that sustains the healing outside the session.",
     audience: "Individuals seeking inner balance",
     icon: Heart,
-    image:
-      "https://images.unsplash.com/photo-1591291621164-2c6367723315?auto=format&fit=crop&w=1400&q=80",
+    image: auraHealingImg,
     includes: [
       "7 chakra alignment",
       "Personal development",
