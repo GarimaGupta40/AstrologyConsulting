@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import homeHeroBg from "@/assets/home-hero-bg.png";
 import vastuConsultingImg from "@assets/Gemini_Generated_Image_ycdda8ycdda8ycdd_1777016808807.png";
 import astrologyConsultingImg from "@assets/image_1777016938503.png";
+import astroVastuImg from "@assets/image_1777016970303.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -45,7 +46,7 @@ const SERVICES = [
     tag: "Where your stars meet your space",
     desc: "A premium, integrated analysis combining your birth chart with property energy mapping. Every remedy is tuned to your personal planetary alignment.",
     audience: "Serious seekers, builders, entrepreneurs",
-    image: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1200&q=80",
+    image: astroVastuImg,
     flagship: true,
   },
   {
