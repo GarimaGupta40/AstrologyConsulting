@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import servicesHeroBg from "@/assets/services-hero-bg.png";
 import astroVastuImg from "@assets/image_1777017385292.png";
+import astrologyImg from "@assets/image_1777017424048.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -102,8 +103,7 @@ const SERVICES: Service[] = [
       "Detailed Kundali reading, dasha analysis, and decision-timing support. Every consultation ends with a written prediction summary you can act on.",
     audience: "Professionals, couples, students, NRIs",
     icon: Sun,
-    image:
-      "https://images.unsplash.com/photo-1515266591878-f93e32bc5937?auto=format&fit=crop&w=1400&q=80",
+    image: astrologyImg,
     includes: [
       "Temporary problem solutions",
       "Guidance / counseling",
