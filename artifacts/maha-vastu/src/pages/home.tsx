@@ -247,7 +247,20 @@ export function Nav() {
                     <Link
                       key={s.title}
                       href={`/services#${slug}`}
-                      onClick={() => setServicesOpen(false)}
+                      onClick={(e) => {
+                        setServicesOpen(false);
+                        if (location === "/services") {
+                          e.preventDefault();
+                          if (typeof window !== "undefined") {
+                            window.history.replaceState(null, "", `${import.meta.env.BASE_URL.replace(/\/$/, "")}/services#${slug}`);
+                            const el = document.getElementById(slug);
+                            if (el) {
+                              const top = el.getBoundingClientRect().top + window.scrollY - 100;
+                              window.scrollTo({ top, behavior: "smooth" });
+                            }
+                          }
+                        }
+                      }}
                       className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
                       data-testid={`nav-service-${slug}`}
                     >
@@ -345,7 +358,21 @@ export function Nav() {
                     <Link
                       key={s.title}
                       href={`/services#${slug}`}
-                      onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
+                      onClick={(e) => {
+                        setOpen(false);
+                        setMobileServicesOpen(false);
+                        if (location === "/services") {
+                          e.preventDefault();
+                          if (typeof window !== "undefined") {
+                            window.history.replaceState(null, "", `${import.meta.env.BASE_URL.replace(/\/$/, "")}/services#${slug}`);
+                            const el = document.getElementById(slug);
+                            if (el) {
+                              const top = el.getBoundingClientRect().top + window.scrollY - 100;
+                              window.scrollTo({ top, behavior: "smooth" });
+                            }
+                          }
+                        }
+                      }}
                       className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b] py-1"
                     >
                       {s.title}
