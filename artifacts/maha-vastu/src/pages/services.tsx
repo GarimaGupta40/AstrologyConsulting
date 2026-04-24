@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import servicesHeroBg from "@/assets/services-hero-bg.png";
+import astroVastuImg from "@assets/image_1777017385292.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -63,8 +64,7 @@ const SERVICES: Service[] = [
       "A premium, integrated analysis combining your birth chart with property energy mapping. Every remedy is tuned to your personal planetary alignment and shared with your family.",
     audience: "Serious seekers, builders, entrepreneurs, families",
     icon: Compass,
-    image:
-      "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1400&q=80",
+    image: astroVastuImg,
     includes: [
       "Entrance door analysis",
       "Temporary block analysis",
