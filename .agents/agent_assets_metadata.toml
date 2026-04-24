@@ -18,3 +18,9 @@ id = "qb_ZnFyrZBW_r6SGFCExS"
 uri = "file://artifacts/maha-vastu/src/assets/contact-hero-bg.png"
 type = "image"
 title = "spiritual indian contact hero"
+
+[[generated]]
+id = "xj591DZAkMA8HAyd_2wxa"
+uri = "file://artifacts/maha-vastu/src/assets/about-hero-bg.png"
+type = "image"
+title = "spiritual indian about hero"

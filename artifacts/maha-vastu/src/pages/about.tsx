@@ -6,6 +6,7 @@ import {
   BookOpen, Lightbulb, Eye, Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import aboutHeroBg from "@/assets/about-hero-bg.png";
 
 const BRAND = {
   phone: "+91 98765 43210",
@@ -26,6 +27,27 @@ const LOTUS_IMG =
 function AboutHero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#fff5eb] via-[#fffaf0] to-white">
+      {/* Spiritual divine Indian background image (behind animation) */}
+      <div
+        className="absolute inset-0 pointer-events-none bg-cover bg-center opacity-75"
+        style={{ backgroundImage: `url(${aboutHeroBg})` }}
+        aria-hidden="true"
+      />
+      {/* Cream wash overlay — stronger on the left for headline readability */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(255,245,235,0.92) 0%, rgba(255,245,235,0.78) 35%, rgba(255,245,235,0.40) 65%, rgba(255,245,235,0.20) 100%)",
+        }}
+        aria-hidden="true"
+      />
+      {/* Bottom fade into white */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 100%)" }}
+        aria-hidden="true"
+      />
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <svg viewBox="0 0 1200 700" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
           <defs>
@@ -130,30 +152,6 @@ function AboutHero() {
           </div>
         </div>
 
-        {/* Founder portrait card */}
-        <div className="lg:col-span-5">
-          <div className="relative max-w-md mx-auto">
-            <div className="absolute -inset-6 bg-gradient-to-br from-[#f6d46b]/40 to-[#ef4d2b]/30 rounded-[2rem] blur-2xl" />
-            <div className="relative rounded-[2rem] overflow-hidden border border-[#f0e6d2] shadow-xl bg-white">
-              <img
-                src={FOUNDER_IMG}
-                alt="Founder of Maha Vastu"
-                loading="lazy"
-                className="w-full h-[460px] object-cover"
-              />
-              <div className="p-5 bg-gradient-to-r from-[#fff5eb] to-white border-t border-[#f0e6d2]">
-                <div className="text-[10px] uppercase tracking-[0.22em] text-[#ef4d2b] font-bold">Founder · Acharya</div>
-                <div className="font-heading text-xl text-[#1a1a1a] mt-1">Vinayak Astro</div>
-                <div className="text-sm text-[#4a4a4a] mt-1">Astrology · Vastu · Energy Sciences</div>
-              </div>
-            </div>
-            <div className="absolute -bottom-5 -left-5 bg-white border border-[#f0e6d2] rounded-2xl px-4 py-3 shadow-md hidden md:flex items-center gap-2">
-              <Star className="w-4 h-4 text-[#f6b400] fill-[#f6b400]" />
-              <span className="text-sm font-semibold text-[#1a1a1a]">4.9 / 5</span>
-              <span className="text-xs text-[#4a4a4a]">· Client rating</span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
