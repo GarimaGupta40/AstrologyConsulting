@@ -11,6 +11,7 @@ import vastuConsultingImg from "@assets/Gemini_Generated_Image_ycdda8ycdda8ycdd_
 import astrologyConsultingImg from "@assets/image_1777016938503.png";
 import astroVastuImg from "@assets/image_1777016970303.png";
 import landAnalysisImg from "@assets/image_1777017000394.png";
+import auraHealingImg from "@assets/image_1777017024028.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -62,7 +63,7 @@ const SERVICES = [
     tag: "Clear the energy you carry",
     desc: "Structured healing sessions to balance chakras, reset your aura, and build a daily practice that sustains the healing outside the session.",
     audience: "Individuals seeking inner balance",
-    image: "https://images.unsplash.com/photo-1591291621164-2c6367723315?auto=format&fit=crop&w=1200&q=80",
+    image: auraHealingImg,
   },
 ];
 
