@@ -107,7 +107,7 @@ export function Nav() {
   const links = [
     { label: "About", href: "/about" },
     { label: "Testimonials", href: "/#testimonials" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
   ];
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-[#f0e6d2]">
