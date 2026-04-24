@@ -6,6 +6,7 @@ import {
   Phone, MessageCircle, Star, Award, ShieldCheck, Quote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import servicesHeroBg from "@/assets/services-hero-bg.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -205,6 +206,24 @@ const PROCESS = [
 function ServicesHeroBackdrop() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      {/* Spiritual Indian celestial background image — zodiac wheel + Vastu yantra */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-75"
+        style={{ backgroundImage: `url(${servicesHeroBg})` }}
+      />
+      {/* Cream wash overlay — stronger on the left for headline readability */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(255,245,235,0.93) 0%, rgba(255,245,235,0.78) 35%, rgba(255,245,235,0.40) 65%, rgba(255,245,235,0.18) 100%)",
+        }}
+      />
+      {/* Bottom fade into next section */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-32"
+        style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 100%)" }}
+      />
       <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-[#f6d46b]/30 blur-3xl" />
       <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-[#ef4d2b]/20 blur-3xl" />
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(120vw,1000px)] aspect-square opacity-[0.18]">
