@@ -148,9 +148,22 @@ export function Nav() {
   }, []);
 
   const links = [
-    { label: "About", href: "/about" },
-    { label: "Testimonials", href: "/testimonials" },
-    { label: "Contact", href: "/contact" },
+    { 
+      label: "Services", 
+      href: "#services",
+      dropdown: [
+        { label: "Vastu Consultation", href: "#services" },
+        { label: "Astro Vastu", href: "#services" },
+        { label: "Astrology Guidance", href: "#services" },
+        { label: "Land & Plot Analysis", href: "#services" },
+        { label: "Aura & Chakra Healing", href: "#services" },
+      ]
+    },
+    { label: "How it works", href: "#how" },
+    { label: "About", href: "#about" },
+    { label: "Philosophy", href: "#philosophy" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "Contact", href: "#contact" },
   ];
 
   const isActive = (href: string) => {
@@ -197,117 +210,29 @@ export function Nav() {
             <div className="font-heading text-xl font-semibold tracking-tight text-[#1a1a1a]">{BRAND.name}</div>
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a4a4a]">{BRAND.tagline}</div>
           </div>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-8">
-          <div
-            className="relative z-[60]"
-            onMouseEnter={openDropdown}
-            onMouseLeave={scheduleClose}
-            onFocus={openDropdown}
-            onBlur={scheduleClose}
-          >
-            <Link
-              href="/services"
-              onClick={() => {
-                if (location === "/services") {
-                  setServicesOpen((v) => !v);
-                } else {
-                  setServicesOpen(false);
-                }
-              }}
-              onMouseEnter={openDropdown}
-              onFocus={openDropdown}
-              className={desktopLinkClass(isActive("/services")) + " flex items-center gap-1"}
-              aria-haspopup="true"
-              aria-expanded={servicesOpen}
-              data-testid="nav-services-link"
-            >
-              Services
-              <ChevronRight
-                className="w-3.5 h-3.5 transition-transform"
-                style={{ transform: servicesOpen ? "rotate(-90deg)" : "rotate(90deg)" }}
-              />
-              <ActiveUnderline show={isActive("/services")} />
-            </Link>
-
-            <div
-              className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px] z-[60] transition-all duration-150 ${
-                servicesOpen
-                  ? "opacity-100 translate-y-0 pointer-events-auto"
-                  : "opacity-0 -translate-y-1 pointer-events-none"
-              }`}
-              onMouseEnter={openDropdown}
-              onMouseLeave={scheduleClose}
-            >
-              <div className="bg-white border border-[#f0e6d2] rounded-2xl shadow-lg overflow-hidden">
-                {SERVICES.map((s) => {
-                  const slug = slugFor(s.title);
-                  return (
-                    <Link
-                      key={s.title}
-                      href={`/services#${slug}`}
-                      onClick={(e) => {
-                        setServicesOpen(false);
-                        if (location === "/services") {
-                          e.preventDefault();
-                          if (typeof window !== "undefined") {
-                            window.history.replaceState(null, "", `${import.meta.env.BASE_URL.replace(/\/$/, "")}/services#${slug}`);
-                            const el = document.getElementById(slug);
-                            if (el) {
-                              const top = el.getBoundingClientRect().top + window.scrollY - 100;
-                              window.scrollTo({ top, behavior: "smooth" });
-                            }
-                          }
-                        }
-                      }}
-                      className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
-                      data-testid={`nav-service-${slug}`}
-                    >
-                      <div className="w-9 h-9 rounded-full mv-gradient flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Sparkles className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-[#1a1a1a] flex items-center gap-2">
-                          {s.title}
-                          {s.flagship && (
-                            <span className="text-[9px] uppercase tracking-wider font-bold text-[#ef4d2b] bg-[#fff5eb] px-1.5 py-0.5 rounded">
-                              Flagship
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-xs text-[#4a4a4a] mt-0.5">{s.tag}</div>
-                      </div>
-                    </Link>
-                  );
-                })}
-                <Link
-                  href="/services"
-                  onClick={() => setServicesOpen(false)}
-                  className="flex items-center justify-between px-4 py-3 bg-[#faf9f6] hover:bg-[#fff5eb] transition-colors text-sm font-medium text-[#ef4d2b]"
-                  data-testid="nav-services-view-all"
-                >
-                  View all services
-                  <ChevronRight className="w-4 h-4" />
-                </Link>
+        </a>
+        <nav className="hidden md:flex items-center gap-9">
+          {links.map((l) => (
+            l.dropdown ? (
+              <div key={l.label} className="relative group">
+                <a href={l.href} className="flex items-center gap-1 text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2">
+                  {l.label}
+                  <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:rotate-90" />
+                </a>
+                <div className="absolute top-full left-0 mt-0 w-56 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 bg-white border border-[#f0e6d2] shadow-lg rounded-xl overflow-hidden py-2">
+                  {l.dropdown.map((sub) => (
+                    <a key={sub.label} href={sub.href} className="block px-4 py-2.5 text-sm text-[#4a4a4a] hover:text-[#ef4d2b] hover:bg-[#fff5eb]">
+                      {sub.label}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-
-          {links.map((l) => {
-            const active = isActive(l.href);
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={desktopLinkClass(active)}
-                data-testid={`nav-link-${l.label.toLowerCase()}`}
-              >
+            ) : (
+              <a key={l.label} href={l.href} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2">
                 {l.label}
-                <ActiveUnderline show={active} />
-              </Link>
-            );
-          })}
+              </a>
+            )
+          ))}
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -330,84 +255,24 @@ export function Nav() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-[#f0e6d2] bg-white">
-          <div className="section-container py-4 flex flex-col gap-1">
-            <div className={`flex items-center justify-between rounded-lg ${isActive("/services") ? "bg-[#fff5eb]" : ""}`}>
-              <Link
-                href="/services"
-                onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
-                className={`flex-1 text-sm font-medium py-2 px-2 ${isActive("/services") ? "text-[#ef4d2b]" : "text-[#1a1a1a]"}`}
-              >
-                Services
-              </Link>
-              <button
-                type="button"
-                onClick={() => setMobileServicesOpen((s) => !s)}
-                className="p-2 text-[#4a4a4a]"
-                aria-expanded={mobileServicesOpen}
-                aria-label="Toggle services menu"
-              >
-                <ChevronRight className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-90" : ""}`} />
-              </button>
-            </div>
-            {mobileServicesOpen && (
-              <div className="pl-5 border-l-2 border-[#f6d46b] flex flex-col gap-2 mb-2 ml-2">
-                {SERVICES.map((s) => {
-                  const slug = slugFor(s.title);
-                  return (
-                    <Link
-                      key={s.title}
-                      href={`/services#${slug}`}
-                      onClick={(e) => {
-                        setOpen(false);
-                        setMobileServicesOpen(false);
-                        if (location === "/services") {
-                          e.preventDefault();
-                          if (typeof window !== "undefined") {
-                            window.history.replaceState(null, "", `${import.meta.env.BASE_URL.replace(/\/$/, "")}/services#${slug}`);
-                            const el = document.getElementById(slug);
-                            if (el) {
-                              const top = el.getBoundingClientRect().top + window.scrollY - 100;
-                              window.scrollTo({ top, behavior: "smooth" });
-                            }
-                          }
-                        }
-                      }}
-                      className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b] py-1"
-                    >
-                      {s.title}
-                    </Link>
-                  );
-                })}
-                <Link
-                  href="/services"
-                  onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
-                  className="text-sm text-[#ef4d2b] font-medium py-1"
-                >
-                  View all services →
-                </Link>
-              </div>
-            )}
-            {links.map((l) => {
-              const active = isActive(l.href);
-              return (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className={`text-sm font-medium py-2 px-2 rounded-lg ${active ? "text-[#ef4d2b] bg-[#fff5eb]" : "text-[#1a1a1a]"}`}
-                >
+        <div className="md:hidden border-t border-[#f0e6d2] bg-white max-h-[80vh] overflow-y-auto">
+          <div className="section-container py-4 flex flex-col gap-3">
+            {links.map((l) => (
+              <div key={l.label} className="flex flex-col gap-2">
+                <a href={l.href} onClick={() => !l.dropdown && setOpen(false)} className="text-sm font-medium text-[#1a1a1a] py-1">
                   {l.label}
-                </Link>
-              );
-            })}
-            <a
-              href={`tel:${BRAND.phone}`}
-              className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] py-2 px-2"
-            >
-              <Phone className="w-4 h-4 text-[#ef4d2b]" />
-              {BRAND.phone}
-            </a>
+                </a>
+                {l.dropdown && (
+                  <div className="pl-4 flex flex-col gap-3 border-l-2 border-[#f0e6d2] ml-1 mt-1 mb-2">
+                    {l.dropdown.map((sub) => (
+                      <a key={sub.label} href={sub.href} onClick={() => setOpen(false)} className="text-sm text-[#4a4a4a] hover:text-[#ef4d2b]">
+                        {sub.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
             <Button asChild className="mv-gradient text-white rounded-full mt-2">
               <Link href="/contact" onClick={() => setOpen(false)}>Book a Consultation</Link>
             </Button>
