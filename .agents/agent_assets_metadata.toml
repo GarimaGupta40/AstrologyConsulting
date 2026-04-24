@@ -12,3 +12,9 @@ id = "ILcz7rttHiCELT5fMidFA"
 uri = "file://artifacts/maha-vastu/public/founder-portrait.png"
 type = "image"
 title = "Founder portrait"
+
+[[generated]]
+id = "qb_ZnFyrZBW_r6SGFCExS"
+uri = "file://artifacts/maha-vastu/src/assets/contact-hero-bg.png"
+type = "image"
+title = "spiritual indian contact hero"

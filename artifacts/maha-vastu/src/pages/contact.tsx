@@ -5,6 +5,7 @@ import {
   Sparkles, ShieldCheck, Calendar, Upload, ChevronRight, Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import contactHeroBg from "@/assets/contact-hero-bg.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -39,6 +40,27 @@ const PROPERTY_OPTIONS = [
 function ContactHero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#fff5eb] via-[#fffaf0] to-white">
+      {/* Spiritual divine background image (behind animation) */}
+      <div
+        className="absolute inset-0 pointer-events-none bg-cover bg-center opacity-70"
+        style={{ backgroundImage: `url(${contactHeroBg})` }}
+        aria-hidden="true"
+      />
+      {/* Soft cream overlay for text readability — stronger on the left */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(255,245,235,0.92) 0%, rgba(255,245,235,0.75) 35%, rgba(255,245,235,0.40) 65%, rgba(255,245,235,0.20) 100%)",
+        }}
+        aria-hidden="true"
+      />
+      {/* Bottom fade into page background */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 100%)" }}
+        aria-hidden="true"
+      />
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <svg viewBox="0 0 1200 700" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
           <defs>
