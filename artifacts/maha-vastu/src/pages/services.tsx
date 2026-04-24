@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import servicesHeroBg from "@/assets/services-hero-bg.png";
 import astroVastuImg from "@assets/image_1777017385292.png";
 import astrologyImg from "@assets/image_1777017424048.png";
+import landAnalysisImg from "@assets/image_1777017508626.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -132,8 +133,7 @@ const SERVICES: Service[] = [
       "Plot-level energy, soil, slope, and directional analysis before purchase or construction. Go / no-go recommendation with risk flags identified early — saving costly mistakes.",
     audience: "Buyers, builders, developers, industrialists",
     icon: Mountain,
-    image:
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80",
+    image: landAnalysisImg,
     includes: [
       "Negative to positive energy transformation",
       "Aura incremental science",
