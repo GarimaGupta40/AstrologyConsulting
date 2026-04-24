@@ -6,6 +6,7 @@ import Home from "@/pages/home";
 import Services from "@/pages/services";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import Testimonials from "@/pages/testimonials";
 import NotFound from "@/pages/not-found";
 import { Nav, Footer, FloatingWhatsApp } from "@/pages/home";
 
@@ -35,6 +36,14 @@ function Router() {
         <div className="min-h-screen bg-white text-[#1a1a1a]">
           <Nav />
           <Contact />
+          <Footer />
+          <FloatingWhatsApp />
+        </div>
+      </Route>
+      <Route path="/testimonials">
+        <div className="min-h-screen bg-white text-[#1a1a1a]">
+          <Nav />
+          <Testimonials />
           <Footer />
           <FloatingWhatsApp />
         </div>

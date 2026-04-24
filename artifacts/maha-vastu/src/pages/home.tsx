@@ -106,7 +106,7 @@ export function Nav() {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const links = [
     { label: "About", href: "/about" },
-    { label: "Testimonials", href: "/#testimonials" },
+    { label: "Testimonials", href: "/testimonials" },
     { label: "Contact", href: "/contact" },
   ];
   return (
