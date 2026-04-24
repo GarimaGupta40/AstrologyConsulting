@@ -4,6 +4,7 @@ import {
   Phone, Mail, MapPin, MessageCircle, Star, Check, ArrowRight,
   Compass, Sparkles, Mountain, HeartHandshake, Sun, ShieldCheck,
   Clock, FileText, ChevronRight, Menu, X, Quote, Award, Users, Building2,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import homeHeroBg from "@/assets/home-hero-bg.png";
@@ -66,6 +67,13 @@ const SERVICES = [
     audience: "Individuals seeking inner balance",
     image: auraHealingImg,
   },
+  {
+    title: "Business & Industrial Consulting",
+    tag: "Energy strategy for organisations",
+    desc: "Vastu and astrology insights applied at organisational scale — for factories, retail outlets, residential complexes, and growing companies.",
+    audience: "Builders, industrialists, real-estate businesses",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80",
+  },
 ];
 
 const STEPS = [
@@ -79,7 +87,7 @@ const STATS = [
   { icon: Award, value: "18+", label: "Years of consulting" },
   { icon: Users, value: "12,000+", label: "Real transformations" },
   { icon: MapPin, value: "25+", label: "Cities served" },
-  { icon: Building2, value: "5", label: "Service pillars" },
+  { icon: Building2, value: "6", label: "Service pillars" },
 ];
 
 const PHILOSOPHY = [
