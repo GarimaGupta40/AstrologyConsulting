@@ -622,7 +622,7 @@ function Services() {
                   Premium Flagship
                 </span>
               )}
-              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#ef4d2b]/70 via-[#f6d46b]/25 to-transparent pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/85 via-[#ef4d2b]/35 to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                 <div className="text-[10px] uppercase tracking-[0.25em] text-[#f6d46b] font-semibold">{s.tag}</div>
                 <div className="font-heading text-xl md:text-2xl font-medium mt-1">{s.title}</div>
