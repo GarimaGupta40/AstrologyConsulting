@@ -12,6 +12,7 @@ import astrologyConsultingImg from "@assets/image_1777016938503.png";
 import astroVastuImg from "@assets/image_1777016970303.png";
 import landAnalysisImg from "@assets/image_1777017000394.png";
 import auraHealingImg from "@assets/image_1777017024028.png";
+import aboutMahaVastuImg from "@assets/image_1777017066889.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -639,7 +640,7 @@ function About() {
       <div className="relative">
         <div className="absolute -inset-4 bg-gradient-to-br from-[#f6d46b]/30 to-[#ef4d2b]/20 rounded-3xl blur-2xl" />
         <div className="relative rounded-3xl overflow-hidden border border-[#f0e6d2] shadow-sm">
-          <img src={AURA_IMG} alt="Maha Vastu aura" className="w-full h-[420px] object-cover" />
+          <img src={aboutMahaVastuImg} alt="Maha Vastu aura" className="w-full h-[420px] object-cover" />
         </div>
         <div className="absolute -bottom-6 -right-6 bg-white border border-[#f0e6d2] rounded-2xl px-5 py-4 shadow-md hidden md:block">
           <div className="text-xs uppercase tracking-[0.22em] text-[#ef4d2b] font-semibold">Founded</div>
