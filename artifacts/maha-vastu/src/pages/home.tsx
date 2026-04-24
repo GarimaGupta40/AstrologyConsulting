@@ -551,18 +551,17 @@ function Services() {
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
         <div>
           <div className="text-sm uppercase tracking-[0.2em] text-[#ef4d2b] font-semibold">What we do</div>
-          <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">Five disciplines, one integrated practice.</h2>
+          <h2 className="font-heading mt-3 text-3xl md:text-5xl font-light tracking-tight text-[#1a1a1a]">Six disciplines, one integrated practice.</h2>
         </div>
         <p className="text-[#4a4a4a] max-w-md leading-relaxed">
           Every engagement begins with listening. Explore our core services below, or book a free 15-minute clarity call to find the right fit.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {SERVICES.map((s, i) => {
-          const span = s.flagship ? "md:col-span-3 lg:col-span-2 md:row-span-2" : "md:col-span-3 lg:col-span-2";
           return (
             <a key={i} href="#contact"
-              className={`group relative rounded-2xl overflow-hidden border border-[#f0e6d2] aspect-[4/5] hover:-translate-y-1 transition-transform duration-500 ${span}`}>
+              className="group relative rounded-2xl overflow-hidden border border-[#f0e6d2] aspect-[4/5] hover:-translate-y-1 transition-transform duration-500">
               <img src={s.image} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
               {s.flagship && (
