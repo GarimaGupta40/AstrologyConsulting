@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "wouter";
 import {
   Phone, Mail, MapPin, MessageCircle, Star, Check, ArrowRight,
   Compass, Sparkles, Mountain, HeartHandshake, Sun, ShieldCheck,
@@ -100,19 +100,64 @@ const SIGNS = [
   "Relationship or marriage compatibility doubts",
 ];
 
+function slugFor(title: string) {
+  const t = title.toLowerCase();
+  if (t.includes("astro vastu")) return "astro-vastu";
+  if (t.includes("astrology")) return "astrology";
+  if (t.includes("land")) return "land";
+  if (t.includes("aura")) return "aura";
+  if (t.includes("business")) return "business";
+  return "vastu";
+}
+
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [location] = useLocation();
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setServicesOpen(true);
+  };
+  const scheduleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setServicesOpen(false), 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
+
   const links = [
     { label: "About", href: "/about" },
     { label: "Testimonials", href: "/testimonials" },
     { label: "Contact", href: "/contact" },
   ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return location === "/";
+    if (href === "/services") return location === "/services" || location.startsWith("/services");
+    return location === href;
+  };
+
+  const desktopLinkClass = (active: boolean) =>
+    `relative text-sm font-medium py-2 transition-colors ${
+      active ? "text-[#ef4d2b]" : "text-[#1a1a1a] hover:text-[#ef4d2b]"
+    }`;
+
+  const ActiveUnderline = ({ show }: { show: boolean }) =>
+    show ? (
+      <span className="absolute left-0 right-0 -bottom-0.5 h-[2px] mv-gradient rounded-full" />
+    ) : null;
+
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-[#f0e6d2]">
       <div className="section-container flex items-center justify-between h-20">
-        <a href="#top" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5 group" data-testid="nav-logo">
           <div className="w-10 h-10 rounded-full mv-gradient flex items-center justify-center shadow-sm">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
@@ -120,18 +165,18 @@ export function Nav() {
             <div className="font-heading text-xl font-semibold tracking-tight text-[#1a1a1a]">{BRAND.name}</div>
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#4a4a4a]">{BRAND.tagline}</div>
           </div>
-        </a>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-8">
           <div
             className="relative"
-            onMouseEnter={() => setServicesOpen(true)}
-            onMouseLeave={() => setServicesOpen(false)}
+            onMouseEnter={openDropdown}
+            onMouseLeave={scheduleClose}
           >
             <Link
               href="/services"
               onClick={() => setServicesOpen(false)}
-              className="flex items-center gap-1 text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b] py-2"
+              className={desktopLinkClass(isActive("/services")) + " flex items-center gap-1"}
               aria-haspopup="true"
               aria-expanded={servicesOpen}
               data-testid="nav-services-link"
@@ -141,63 +186,73 @@ export function Nav() {
                 className="w-3.5 h-3.5 transition-transform"
                 style={{ transform: servicesOpen ? "rotate(-90deg)" : "rotate(90deg)" }}
               />
+              <ActiveUnderline show={isActive("/services")} />
             </Link>
-            {servicesOpen && (
-              <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px]">
-                <div className="bg-white border border-[#f0e6d2] rounded-2xl shadow-lg overflow-hidden">
-                  {SERVICES.map((s) => {
-                    const slug = s.title.toLowerCase().includes("astro vastu")
-                      ? "astro-vastu"
-                      : s.title.toLowerCase().includes("astrology")
-                      ? "astrology"
-                      : s.title.toLowerCase().includes("land")
-                      ? "land"
-                      : s.title.toLowerCase().includes("aura")
-                      ? "aura"
-                      : "vastu";
-                    return (
-                      <Link
-                        key={s.title}
-                        href={`/services#${slug}`}
-                        onClick={() => setServicesOpen(false)}
-                        className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
-                        data-testid={`nav-service-${slug}`}
-                      >
-                        <div className="w-9 h-9 rounded-full mv-gradient flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Sparkles className="w-4 h-4 text-white" />
+
+            <div
+              className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[340px] transition-all duration-150 ${
+                servicesOpen
+                  ? "opacity-100 translate-y-0 pointer-events-auto"
+                  : "opacity-0 -translate-y-1 pointer-events-none"
+              }`}
+              onMouseEnter={openDropdown}
+              onMouseLeave={scheduleClose}
+            >
+              <div className="bg-white border border-[#f0e6d2] rounded-2xl shadow-lg overflow-hidden">
+                {SERVICES.map((s) => {
+                  const slug = slugFor(s.title);
+                  return (
+                    <Link
+                      key={s.title}
+                      href={`/services#${slug}`}
+                      onClick={() => setServicesOpen(false)}
+                      className="flex items-start gap-3 px-4 py-3 hover:bg-[#fff5eb] transition-colors border-b border-[#f9f1de] last:border-b-0"
+                      data-testid={`nav-service-${slug}`}
+                    >
+                      <div className="w-9 h-9 rounded-full mv-gradient flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Sparkles className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-[#1a1a1a] flex items-center gap-2">
+                          {s.title}
+                          {s.flagship && (
+                            <span className="text-[9px] uppercase tracking-wider font-bold text-[#ef4d2b] bg-[#fff5eb] px-1.5 py-0.5 rounded">
+                              Flagship
+                            </span>
+                          )}
                         </div>
-                        <div>
-                          <div className="text-sm font-semibold text-[#1a1a1a] flex items-center gap-2">
-                            {s.title}
-                            {s.flagship && (
-                              <span className="text-[9px] uppercase tracking-wider font-bold text-[#ef4d2b] bg-[#fff5eb] px-1.5 py-0.5 rounded">
-                                Flagship
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-xs text-[#4a4a4a] mt-0.5">{s.tag}</div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                  <Link
-                    href="/services"
-                    onClick={() => setServicesOpen(false)}
-                    className="flex items-center justify-between px-4 py-3 bg-[#faf9f6] hover:bg-[#fff5eb] transition-colors text-sm font-medium text-[#ef4d2b]"
-                  >
-                    View all services
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
-                </div>
+                        <div className="text-xs text-[#4a4a4a] mt-0.5">{s.tag}</div>
+                      </div>
+                    </Link>
+                  );
+                })}
+                <Link
+                  href="/services"
+                  onClick={() => setServicesOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 bg-[#faf9f6] hover:bg-[#fff5eb] transition-colors text-sm font-medium text-[#ef4d2b]"
+                  data-testid="nav-services-view-all"
+                >
+                  View all services
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
-            )}
+            </div>
           </div>
 
-          {links.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm font-medium text-[#1a1a1a] hover:text-[#ef4d2b]">
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) => {
+            const active = isActive(l.href);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={desktopLinkClass(active)}
+                data-testid={`nav-link-${l.label.toLowerCase()}`}
+              >
+                {l.label}
+                <ActiveUnderline show={active} />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -210,7 +265,7 @@ export function Nav() {
             {BRAND.phone}
           </a>
           <Button asChild className="mv-gradient text-white hover:opacity-90 rounded-full px-5">
-            <a href="#contact">Book a Consultation</a>
+            <Link href="/contact" data-testid="nav-cta-book">Book a Consultation</Link>
           </Button>
         </div>
 
@@ -222,27 +277,28 @@ export function Nav() {
       {open && (
         <div className="md:hidden border-t border-[#f0e6d2] bg-white">
           <div className="section-container py-4 flex flex-col gap-1">
-            <button
-              type="button"
-              onClick={() => setMobileServicesOpen((s) => !s)}
-              className="flex items-center justify-between text-sm font-medium text-[#1a1a1a] py-2"
-              aria-expanded={mobileServicesOpen}
-            >
-              Services
-              <ChevronRight className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-90" : ""}`} />
-            </button>
+            <div className={`flex items-center justify-between rounded-lg ${isActive("/services") ? "bg-[#fff5eb]" : ""}`}>
+              <Link
+                href="/services"
+                onClick={() => { setOpen(false); setMobileServicesOpen(false); }}
+                className={`flex-1 text-sm font-medium py-2 px-2 ${isActive("/services") ? "text-[#ef4d2b]" : "text-[#1a1a1a]"}`}
+              >
+                Services
+              </Link>
+              <button
+                type="button"
+                onClick={() => setMobileServicesOpen((s) => !s)}
+                className="p-2 text-[#4a4a4a]"
+                aria-expanded={mobileServicesOpen}
+                aria-label="Toggle services menu"
+              >
+                <ChevronRight className={`w-4 h-4 transition-transform ${mobileServicesOpen ? "rotate-90" : ""}`} />
+              </button>
+            </div>
             {mobileServicesOpen && (
-              <div className="pl-3 border-l-2 border-[#f6d46b] flex flex-col gap-2 mb-2">
+              <div className="pl-5 border-l-2 border-[#f6d46b] flex flex-col gap-2 mb-2 ml-2">
                 {SERVICES.map((s) => {
-                  const slug = s.title.toLowerCase().includes("astro vastu")
-                    ? "astro-vastu"
-                    : s.title.toLowerCase().includes("astrology")
-                    ? "astrology"
-                    : s.title.toLowerCase().includes("land")
-                    ? "land"
-                    : s.title.toLowerCase().includes("aura")
-                    ? "aura"
-                    : "vastu";
+                  const slug = slugFor(s.title);
                   return (
                     <Link
                       key={s.title}
@@ -263,20 +319,28 @@ export function Nav() {
                 </Link>
               </div>
             )}
-            {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-sm font-medium text-[#1a1a1a] py-2">
-                {l.label}
-              </a>
-            ))}
+            {links.map((l) => {
+              const active = isActive(l.href);
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={`text-sm font-medium py-2 px-2 rounded-lg ${active ? "text-[#ef4d2b] bg-[#fff5eb]" : "text-[#1a1a1a]"}`}
+                >
+                  {l.label}
+                </Link>
+              );
+            })}
             <a
               href={`tel:${BRAND.phone}`}
-              className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] py-2"
+              className="flex items-center gap-2 text-sm font-medium text-[#1a1a1a] py-2 px-2"
             >
               <Phone className="w-4 h-4 text-[#ef4d2b]" />
               {BRAND.phone}
             </a>
             <Button asChild className="mv-gradient text-white rounded-full mt-2">
-              <a href="#contact" onClick={() => setOpen(false)}>Book a Consultation</a>
+              <Link href="/contact" onClick={() => setOpen(false)}>Book a Consultation</Link>
             </Button>
           </div>
         </div>
