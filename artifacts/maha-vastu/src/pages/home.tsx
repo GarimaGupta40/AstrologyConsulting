@@ -172,7 +172,24 @@ export function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-xl border-b border-[#f0e6d2]">
       <div className="section-container flex items-center justify-between h-20">
-        <Link href="/" className="flex items-center gap-2.5 group" data-testid="nav-logo">
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 group"
+          data-testid="nav-logo"
+          onClick={(e) => {
+            if (location === "/") {
+              e.preventDefault();
+            }
+            if (typeof window !== "undefined") {
+              if (window.location.hash) {
+                window.history.replaceState(null, "", window.location.pathname);
+              }
+              requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              });
+            }
+          }}
+        >
           <div className="w-10 h-10 rounded-full mv-gradient flex items-center justify-center shadow-sm">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
