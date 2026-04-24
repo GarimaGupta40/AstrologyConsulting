@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import aboutHeroBg from "@/assets/about-hero-bg.png";
+import founderJourneyImg from "@assets/image_1777018008747.png";
 
 const BRAND = {
   phone: "+91 98765 43210",
@@ -185,7 +186,7 @@ function FounderJourney() {
         <div className="relative">
           <div className="absolute -inset-4 bg-gradient-to-br from-[#f6d46b]/25 to-[#ef4d2b]/15 rounded-3xl blur-2xl" />
           <div className="relative rounded-3xl overflow-hidden border border-[#f0e6d2] shadow-sm">
-            <img src={TEMPLE_IMG} alt="Sacred temple" loading="lazy" className="w-full h-[520px] object-cover" />
+            <img src={founderJourneyImg} alt="Founder's journey" loading="lazy" className="w-full h-[520px] object-cover" />
           </div>
           <div className="absolute -bottom-6 -right-6 bg-white border border-[#f0e6d2] rounded-2xl px-5 py-4 shadow-md hidden md:block max-w-[200px]">
             <Quote className="w-5 h-5 text-[#ef4d2b] mb-1" />
