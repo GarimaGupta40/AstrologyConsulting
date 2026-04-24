@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import homeHeroBg from "@/assets/home-hero-bg.png";
+import vastuConsultingImg from "@assets/Gemini_Generated_Image_ycdda8ycdda8ycdd_1777016808807.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -29,7 +30,7 @@ const SERVICES = [
     tag: "Align your space with natural energy",
     desc: "On-site and remote Vastu analysis for homes, offices, and factories. Correct structural energy flow using proven Vastu principles without demolition.",
     audience: "Homeowners, business owners, factory managers",
-    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+    image: vastuConsultingImg,
   },
   {
     title: "Astrology Consulting",
