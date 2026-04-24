@@ -10,6 +10,7 @@ import aboutHeroBg from "@/assets/about-hero-bg.png";
 import founderJourneyImg from "@assets/image_1777018008747.png";
 import lineageImg from "@assets/sunset-yoga-person-with-lotus-meditation-wellness-mindfulness_1777018125827.avif";
 import promiseImg from "@assets/imagesgg_1777018197224.jpg";
+import practiceImg from "@assets/image_1777018371331.png";
 
 const BRAND = {
   phone: "+91 98765 43210",
@@ -498,7 +499,7 @@ function Practice() {
           <div className="lg:col-span-5 relative">
             <div className="absolute -inset-4 bg-gradient-to-br from-[#f6d46b]/25 to-[#ef4d2b]/15 rounded-3xl blur-2xl" />
             <div className="relative rounded-3xl overflow-hidden border border-[#f0e6d2] shadow-sm">
-              <img src={MEDITATION_IMG} alt="Meditation and inner alignment" loading="lazy" className="w-full h-[460px] object-cover" />
+              <img src={practiceImg} alt="How we practice" loading="lazy" className="w-full h-[460px] object-cover" />
             </div>
           </div>
           <div className="lg:col-span-7">
