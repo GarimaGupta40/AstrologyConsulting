@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import homeHeroBg from "@/assets/home-hero-bg.png";
 import vastuConsultingImg from "@assets/Gemini_Generated_Image_ycdda8ycdda8ycdd_1777016808807.png";
+import astrologyConsultingImg from "@assets/image_1777016938503.png";
 
 const BRAND = {
   name: "Maha Vastu",
@@ -37,7 +38,7 @@ const SERVICES = [
     tag: "Clarity for career, relationships & timing",
     desc: "Detailed Kundali reading, dasha analysis, and decision-timing support with a written prediction summary.",
     audience: "Professionals, couples, students, NRIs",
-    image: "https://images.unsplash.com/photo-1515266591878-f93e32bc5937?auto=format&fit=crop&w=1400&q=80",
+    image: astrologyConsultingImg,
   },
   {
     title: "Astro Vastu",
