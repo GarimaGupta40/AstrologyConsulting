@@ -7,10 +7,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import servicesHeroBg from "@/assets/services-hero-bg.png";
-import astroVastuImg from "@assets/image_1777017385292.png";
-import astrologyImg from "@assets/image_1777017424048.png";
-import landAnalysisImg from "@assets/image_1777017508626.png";
-import auraHealingImg from "@assets/image_1777017543571.png";
+import astroVastuImg from "@/assets/attached_assets/image_1777017385292.png";
+import astrologyImg from "@/assets/attached_assets/image_1777017424048.png";
+import landAnalysisImg from "@/assets/attached_assets/image_1777017508626.png";
+import auraHealingImg from "@/assets/attached_assets/image_1777017543571.png";
 
 const BRAND = {
   name: "Maha Vastu",

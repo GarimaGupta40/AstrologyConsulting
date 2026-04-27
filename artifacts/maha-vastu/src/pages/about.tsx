@@ -7,10 +7,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import aboutHeroBg from "@/assets/about-hero-bg.png";
-import founderJourneyImg from "@assets/image_1777018008747.png";
-import lineageImg from "@assets/sunset-yoga-person-with-lotus-meditation-wellness-mindfulness_1777018125827.avif";
-import promiseImg from "@assets/imagesgg_1777018197224.jpg";
-import practiceImg from "@assets/image_1777018580143.png";
+import founderJourneyImg from "@/assets/attached_assets/image_1777018008747.png";
+import lineageImg from "@/assets/attached_assets/sunset-yoga-person-with-lotus-meditation-wellness-mindfulness_1777018125827.avif";
+import promiseImg from "@/assets/attached_assets/imagesgg_1777018197224.jpg";
+import practiceImg from "@/assets/attached_assets/image_1777018580143.png";
 
 const BRAND = {
   phone: "+91 99999 99999",
